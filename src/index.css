@@ -1,0 +1,137 @@
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@800&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* ── Backgrounds ── */
+  --color-base: #07090d;
+  --color-base-raised: #0c0f16;
+  --color-surface: #111520;
+  --color-surface-raised: #161c2a;
+
+  /* ── Borders ── */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.11);
+  --color-border-focus: rgba(255, 255, 255, 0.22);
+
+  /* ── Text ── */
+  --color-text-primary: #c8d0e0;
+  --color-text-secondary: #5a6475;
+  --color-text-faint: #2e3545;
+
+  /* ── Severity — Red (Critical) ── */
+  --color-critical: #ff3b3b;
+  --color-critical-muted: rgba(255, 59, 59, 0.1);
+  --color-critical-border: rgba(255, 59, 59, 0.22);
+
+  /* ── Severity — Amber (Moderate) ── */
+  --color-moderate: #ffaa00;
+  --color-moderate-muted: rgba(255, 170, 0, 0.1);
+  --color-moderate-border: rgba(255, 170, 0, 0.22);
+
+  /* ── Severity — Green (Resolved / Low) ── */
+  --color-resolved: #00d97e;
+  --color-resolved-muted: rgba(0, 217, 126, 0.1);
+  --color-resolved-border: rgba(0, 217, 126, 0.22);
+
+  /* ── Accent — Blue (AI / Medical) ── */
+  --color-accent: #4a9eff;
+  --color-accent-muted: rgba(74, 158, 255, 0.1);
+  --color-accent-border: rgba(74, 158, 255, 0.22);
+
+  /* ── Accent — Purple (Admin) ── */
+  --color-admin: #a855f7;
+  --color-admin-muted: rgba(168, 85, 247, 0.1);
+  --color-admin-border: rgba(168, 85, 247, 0.22);
+
+  /* ── Fonts ── */
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-sans: "IBM Plex Sans", sans-serif;
+
+  /* ── Shadows ── */
+  --shadow-surface: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-critical: 0 4px 14px rgba(255, 59, 59, 0.25);
+
+  /* ── Border Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* ── Animations ── */
+  --animate-fade-in: fadeIn 0.2s ease;
+  --animate-blink: blink 1s infinite;
+  --animate-sos-pulse: sosPulse 2s infinite;
+  --animate-flash-room: flashRoom 1.5s infinite;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes sosPulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(255, 59, 59, 0);
+    }
+  }
+
+  @keyframes flashRoom {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* ── Base ── */
+@layer base {
+  body {
+    @apply bg-base text-text-primary font-sans;
+  }
+
+  /* inputs */
+  input,
+  textarea,
+  select {
+    @apply bg-surface border border-border text-text-primary
+           font-mono text-sm rounded-md outline-none
+           transition-colors placeholder:text-text-faint;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply border-border-focus;
+  }
+}
+
+/* ── Utilities ── */
+@layer utilities {
+  /* severity pills */
+  /* .badge-critical {
+    @apply bg-crit;
+  } */
+}
