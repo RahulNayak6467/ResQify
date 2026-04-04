@@ -1,3 +1,4 @@
+import ChartLayout from "../charts/chartlayout";
 import StatCard from "../StatCard";
 import HotelMapLayout from "./HotelMapLayout";
 
@@ -36,8 +37,9 @@ function AdminOverviewPage() {
           color="#a855f7"
         />
       </div>
+      <div>{/* <HotelMapLayout /> */}</div>
       <div>
-        <HotelMapLayout />
+        <ChartLayout />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ interface sidebarCountsProps {
 
 function Sidebar() {
   return (
-    <div className="flex flex-col gap-8 px-4 py-6 bg-base-raised w-[250px] border-r border-r-border min-h-screen ">
+    <div className="flex flex-col gap-8 px-4 py-6 bg-base-raised w-[250px] border-r border-r-border  ">
       <div className="flex flex-col gap-">
         <h3 className="text-text-secondary uppercase text-[10px] font-mono tracking-wide">
           Incident Queue

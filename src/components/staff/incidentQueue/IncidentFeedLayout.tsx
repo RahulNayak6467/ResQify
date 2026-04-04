@@ -70,7 +70,7 @@ const incidents: Incident[] = [
 
 function IncidentFeedLayout() {
   return (
-    <section className="border-r border-border-strong">
+    <section className="border-r border-border-strong h-screen">
       <IncidentFeedHeader />
       {incidents.map((incident) => (
         <IncidentFeed
@@ -83,6 +83,7 @@ function IncidentFeedLayout() {
           type={incident.type}
           aiTag={incident.aiTag}
           time={incident.time}
+          live={incident.live}
         />
       ))}
     </section>

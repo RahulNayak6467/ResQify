@@ -43,11 +43,12 @@ function IncidentFeed({
   desc,
   type,
   aiTag,
+  live,
 }: Incident) {
   return (
     <div className="flex flex-col gap-2 p-4 bg-base cursor-pointer hover:bg-surface transition-all border-b border-border">
-      <div className="flex items-center justify-between ">
-        <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4 ">
           <span className="text-[10px] uppercase text-text-secondary font-mono font-extralight tracking-wider">
             {id}
           </span>
@@ -58,9 +59,9 @@ function IncidentFeed({
             {floor}
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <p
-            className={`${severityBadgeMap[severity]} ${typeTagMap[severity]} text-[10px] px-3  rounded-sm border`}
+            className={`${severityBadgeMap[severity]} ${typeTagMap[severity]} text-[10px] px-3 py-0.5 rounded-sm border`}
           >
             {severity}
           </p>
@@ -87,6 +88,16 @@ function IncidentFeed({
         <span className="text-accent border border-accent-muted bg-accent-muted px-3 py-0.5 rounded-sm font-extrabold">
           {aiTag}
         </span>
+        {live ? (
+          <div className="flex items-center gap-1">
+            <div className="w-1 h-1 rounded-full bg-critical animate-blink" />
+            <p className="text-critical text-[10px] uppercase tracking-widest">
+              live
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
