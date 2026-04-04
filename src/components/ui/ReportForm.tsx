@@ -36,7 +36,11 @@ function ReportForm() {
           </label>
           <div className="grid grid-cols-3 gap-x-4 gap-y-2 ">
             {EMERGENCY_TYPES.map((emergency) => (
-              <EmergencyTypes icon={emergency.icon} label={emergency.label} />
+              <EmergencyTypes
+                key={emergency.label}
+                icon={emergency.icon}
+                label={emergency.label}
+              />
             ))}
           </div>
           <div>
