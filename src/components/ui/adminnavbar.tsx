@@ -16,6 +16,7 @@ function AdminNavbar() {
           <AdminNavbarElement title="Overview" path="/admin/overview" />
           <AdminNavbarElement title="staff mgmt" path="/admin/staff" />
           <AdminNavbarElement title="ai dashboard" path="/admin/dashboard" />
+          <AdminNavbarElement title="floor map" path="/admin/floormap" />
         </ul>
         <div className="flex gap-2 items-center">
           <p className="bg-admin-muted text-admin border text-xs border-admin-border w-fit px-2 rounded-md py-0.5 uppercase">

@@ -16,7 +16,7 @@ const IncidentTypeBreakdown = ({
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div
-              className="w-3 h-3 rounded-sm flex-shrink-0"
+              className="w-3 h-3 rounded-sm shrink-0"
               style={{ background: fill }}
             />
             <span className="font-mono text-sm text-text-secondary">

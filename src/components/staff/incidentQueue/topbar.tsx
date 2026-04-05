@@ -14,13 +14,7 @@ export interface Incident {
 }
 // constants/incidents.ts
 
-export const filterTabs = [
-  "ALL",
-  "CRITICAL",
-  "MEDICAL",
-  "FIRE",
-  "RESOLVED",
-] as const;
+const filterTabs = ["ALL", "CRITICAL", "MEDICAL", "FIRE", "RESOLVED"] as const;
 export type FilterTab = (typeof filterTabs)[number];
 
 // types/incident.ts

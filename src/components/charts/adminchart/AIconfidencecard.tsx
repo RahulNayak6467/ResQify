@@ -57,7 +57,7 @@ const AIConfidenceCard: FC = () => (
           key={type}
           className={`flex items-center gap-4 py-3 ${i !== aiConfidence.length - 1 ? "border-b border-border" : ""}`}
         >
-          <span className="font-mono text-sm text-text-secondary w-24 flex-shrink-0">
+          <span className="font-mono text-sm text-text-secondary w-24 shrink-0">
             {type}
           </span>
           <div className="flex-1 h-1.5 bg-surface-raised rounded-full overflow-hidden">
@@ -67,7 +67,7 @@ const AIConfidenceCard: FC = () => (
             />
           </div>
           <span
-            className="font-mono text-sm font-semibold w-10 text-right flex-shrink-0"
+            className="font-mono text-sm font-semibold w-10 text-right shrink-0"
             style={{ color }}
           >
             {confidence}%

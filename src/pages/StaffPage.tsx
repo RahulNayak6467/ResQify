@@ -1,5 +1,5 @@
 import IncidentFeedLayout from "../components/staff/incidentQueue/IncidentFeedLayout";
-import IncidentFeedHeader from "../components/staff/incidentQueue/topbar";
+
 import RightBarLayout from "../components/staff/rightbar/rightbarLayout";
 import Sidebar from "../components/staff/sidebar/Sidebar";
 import StaffTopbar from "../components/staff/staffnavbar";

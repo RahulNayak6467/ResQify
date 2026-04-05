@@ -14,11 +14,11 @@ interface Incident {
   live?: boolean;
 }
 
-const severityLeftBorderMap: Record<string, string> = {
-  CRITICAL: "border-l-critical",
-  MODERATE: "border-l-moderate",
-  RESOLVED: "border-l-text-faint",
-};
+// const severityLeftBorderMap: Record<string, string> = {
+//   CRITICAL: "border-l-critical",
+//   MODERATE: "border-l-moderate",
+//   RESOLVED: "border-l-text-faint",
+// };
 
 const severityBadgeMap: Record<string, string> = {
   CRITICAL: "bg-critical-muted text-critical border-critical-border",

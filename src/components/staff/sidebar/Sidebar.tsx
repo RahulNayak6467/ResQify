@@ -3,12 +3,12 @@
 import FloorIncident from "./floorIncident";
 import TeamStatus from "./TeamStatus";
 
-interface sidebarCountsProps {
-  All: number;
-  Critical: number;
-  Moderate: number;
-  Resolved: number;
-}
+// interface sidebarCountsProps {
+//   All: number;
+//   Critical: number;
+//   Moderate: number;
+//   Resolved: number;
+// }
 
 function Sidebar() {
   return (

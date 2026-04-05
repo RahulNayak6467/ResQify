@@ -26,8 +26,8 @@
 interface StatCardProps {
   num: string;
   label: string;
-  delta: string;
-  color: string;
+  delta?: string;
+  color?: string;
 }
 
 const StatCard = ({ num, label, delta, color }: StatCardProps) => (

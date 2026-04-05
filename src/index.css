@@ -8,7 +8,7 @@
   --color-base-raised: #0c0f16;
   --color-surface: #111520;
   --color-surface-raised: #161c2a;
-
+  --color-floormap: rgba(0, 217, 126, 0.1);
   /* ── Borders ── */
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.11);

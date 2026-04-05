@@ -1,6 +1,5 @@
 import ChartLayout from "../charts/chartlayout";
 import StatCard from "../StatCard";
-import HotelMapLayout from "./HotelMapLayout";
 
 function AdminOverviewPage() {
   return (

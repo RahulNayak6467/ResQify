@@ -6,10 +6,23 @@ import AdminOverviewPage from "./components/ui/adminOverviewPage";
 import StaffTable from "./components/ui/stafftable";
 import AIClassificationLog from "./components/ui/AIClassification";
 import StaffPage from "./pages/StaffPage";
+
+import FloorLayout from "./components/admin/FloorMap/floorlayout";
+import LoginInfo from "./components/Login/LoginInfo";
+import LoginPage from "./components/Login/LoginPage";
+import Register from "./components/SignIn/SignInPage";
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "reported",
@@ -30,6 +43,10 @@ export const routes = createBrowserRouter([
       {
         path: "dashboard",
         element: <AIClassificationLog />,
+      },
+      {
+        path: "floormap",
+        element: <FloorLayout />,
       },
     ],
   },
