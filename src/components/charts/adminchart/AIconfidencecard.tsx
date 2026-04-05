@@ -35,7 +35,7 @@ const aiSummaryStats = {
 };
 
 const AIConfidenceCard: FC = () => (
-  <div className="bg-surface  rounded-lg p-5 flex flex-col border border-border-focus ">
+  <div className="bg-surface  rounded-lg p-5 flex flex-col border border-border-focus h-full ">
     {/* header */}
     <div className="flex items-start justify-between">
       <span className="font-mono text-xs font-semibold text-text-secondary uppercase tracking-widest leading-tight">
@@ -81,7 +81,7 @@ const AIConfidenceCard: FC = () => (
       <p className="font-mono text-[10px] text-text-faint uppercase tracking-widest mb-3">
         Weekly Accuracy Trend
       </p>
-      <ResponsiveContainer width="100%" height={100}>
+      <ResponsiveContainer width="100%" height={130}>
         <AreaChart
           data={weeklyAccuracy}
           margin={{ top: 10, right: 0, left: -30, bottom: 0 }}

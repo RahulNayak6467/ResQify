@@ -9,7 +9,7 @@ const IncidentTypeBreakdown = ({
 }: {
   data: incidentTypeBreakdownProps[];
 }) => (
-  <div className="flex flex-col gap-5">
+  <div className="flex flex-col gap-3">
     {data.map(({ type, value, fill }) => (
       <div key={type}>
         {/* label row */}

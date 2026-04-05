@@ -1,3 +1,4 @@
+import HeatMap from "../admin/heatmap";
 import AIConfidenceCard from "./adminchart/AIconfidencecard";
 import AdminAreaChart from "./adminchart/areachart/adminareachart";
 import AdminPieChart from "./adminchart/piechart/adminpiechart";
@@ -27,12 +28,15 @@ function ChartLayout() {
         <AdminPieChart data={incidentTypeBreakdown} />
         <AIConfidenceCard />
       </div> */}
+      <div>
+        <AdminAreaChart data={resolutionTime} />
+      </div>
       <div className="grid grid-cols-[1fr_350px] gap-x-4 ">
         <div className="flex flex-col gap-4">
-          <AdminAreaChart data={resolutionTime} />
+          <HeatMap />
           <AdminPieChart data={incidentTypeBreakdown} />
         </div>
-        <div>
+        <div className="mt-4">
           <AIConfidenceCard />
         </div>
       </div>

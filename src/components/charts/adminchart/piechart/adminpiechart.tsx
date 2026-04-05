@@ -9,7 +9,7 @@ interface incidentTypeBreakdownProps {
 
 function AdminPieChart({ data }: { data: incidentTypeBreakdownProps[] }) {
   return (
-    <div className="p-4 bg-surface border border-border-focus rounded-lg">
+    <div className="p-4 bg-surface border border-border-focus rounded-lg ">
       <div className="flex justify-between">
         <h3 className="uppercase text-text-secondary tracking-wider font-sans text-sm ">
           Incident type breakdown
@@ -18,7 +18,7 @@ function AdminPieChart({ data }: { data: incidentTypeBreakdownProps[] }) {
           Today 147 total
         </p>
       </div>
-      <div className="flex gap-4 items-center mt-4">
+      <div className="flex gap-4 items-center ">
         <div>
           <PieChartData data={data} />
         </div>

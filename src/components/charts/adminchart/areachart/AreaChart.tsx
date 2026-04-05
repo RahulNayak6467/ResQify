@@ -18,7 +18,7 @@ function AreaChartData({ data }: { data: areaChartProps[] }) {
       style={{
         width: "100%",
 
-        maxHeight: "15vh",
+        maxHeight: "14vh",
         aspectRatio: 1.618,
       }}
       responsive
