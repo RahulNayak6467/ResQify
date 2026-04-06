@@ -1,6 +1,6 @@
-import StatCard from "../StatCard";
+// import StatCard from "../StatCard";
 import ResQifyLogo from "../ui/ResqifyIcon";
-import AuthStats from "./AuthStats";
+// import AuthStats from "./AuthStats";
 import Circle from "./Circle";
 import RecentActivity from "./RecentActivity";
 

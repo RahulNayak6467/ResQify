@@ -4,6 +4,7 @@
 
 @theme {
   /* ── Backgrounds ── */
+  --color-background: #07080c;
   --color-base: #07090d;
   --color-base-raised: #0c0f16;
   --color-surface: #111520;
@@ -52,8 +53,7 @@
   --shadow-surface: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-critical: 0 4px 14px rgba(255, 59, 59, 0.25);
-
-  /* ── Border Radius ── */
+  --shadow-glow: 0 8px 16px rgba(0, 217, 126, 1); /* ── Border Radius ── */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
@@ -64,6 +64,26 @@
   --animate-blink: blink 1s infinite;
   --animate-sos-pulse: sosPulse 2s infinite;
   --animate-flash-room: flashRoom 1.5s infinite;
+  --animate-marquee: marquee 20s infinite;
+  --animate-moveToTop: moveToTop 20s infinite;
+
+  @keyframes moveToTop {
+    from {
+      transform: translateY(1000px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0%);
+    }
+  }
 
   @keyframes fadeIn {
     from {
@@ -134,4 +154,230 @@
   /* .badge-critical {
     @apply bg-crit;
   } */
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 30%,
+      black 100%,
+      transparent 70%
+    );
+  }
+  .bg-gradient {
+    background: linear-gradient(135deg, #fff 0%, #e8eaf0 40%, #00e5a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dashboard-mock {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .mock-topbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .mock-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+  }
+  .mock-dot:nth-child(1) {
+    background: #ff5f57;
+  }
+  .mock-dot:nth-child(2) {
+    background: #febc2e;
+  }
+  .mock-dot:nth-child(3) {
+    background: #28c840;
+  }
+  .mock-body {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    min-height: 300px;
+  }
+  .mock-card {
+    background-color: "#07090d";
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    animation: cardReveal 1s ease both;
+  }
+  .mock-card:nth-child(1) {
+    animation-delay: 1.2s;
+  }
+  .mock-card:nth-child(2) {
+    animation-delay: 1.4s;
+  }
+  .mock-card:nth-child(3) {
+    animation-delay: 1.6s;
+  }
+  .mock-card:nth-child(4) {
+    animation-delay: 1.8s;
+  }
+  @keyframes cardReveal {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .mock-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .mock-card-title {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .mock-card-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: var(--mono);
+  }
+  .mock-card-value.green {
+    color: "#00d97e";
+  }
+  .mock-card-value.red {
+    color: "#ff3b3b";
+  }
+  .mock-card-value.blue {
+    color: #4a9eff;
+  }
+  .mock-card-value.yellow {
+    color: "#ffaa00";
+  }
+  .mock-bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 60px;
+    margin-top: 0.5rem;
+  }
+  .mock-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    animation: barGrow 1s ease both;
+  }
+  @keyframes barGrow {
+    from {
+      height: 0 !important;
+    }
+  }
+  .mock-bar:nth-child(1) {
+    height: 40%;
+    background: var(--accent);
+    animation-delay: 2s;
+  }
+  .mock-bar:nth-child(2) {
+    height: 70%;
+    background: var(--accent);
+    animation-delay: 2.1s;
+  }
+  .mock-bar:nth-child(3) {
+    height: 55%;
+    background: var(--accent);
+    animation-delay: 2.2s;
+  }
+  .mock-bar:nth-child(4) {
+    height: 85%;
+    background: var(--danger);
+    animation-delay: 2.3s;
+  }
+  .mock-bar:nth-child(5) {
+    height: 30%;
+    background: var(--accent);
+    animation-delay: 2.4s;
+  }
+  .mock-bar:nth-child(6) {
+    height: 60%;
+    background: var(--warning);
+    animation-delay: 2.5s;
+  }
+  .mock-bar:nth-child(7) {
+    height: 45%;
+    background: var(--accent);
+    animation-delay: 2.6s;
+  }
+  .mock-bar:nth-child(8) {
+    height: 75%;
+    background: var(--accent2);
+    animation-delay: 2.7s;
+  }
+  .mock-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .mock-status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    color: var(--text-dim);
+  }
+  .mock-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .mock-status-dot.ok {
+    background: var(--accent);
+  }
+  .mock-status-dot.warn {
+    background: var(--warning);
+  }
+  .mock-status-dot.crit {
+    background: var(--danger);
+  }
+  .mock-line {
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+  .mock-line svg {
+    width: 100%;
+    height: 100%;
+  }
+  .mock-line path {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: drawLine 2s ease 2s forwards;
+  }
+  @keyframes drawLine {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 }
