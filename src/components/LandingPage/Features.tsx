@@ -1,5 +1,5 @@
 import Card from "./FeaturesCard";
-
+import { motion } from "motion/react";
 import {
   Clock,
   MessageSquare,
@@ -72,30 +72,98 @@ const features = [
   },
 ];
 
+// const reveal = {
+//   initial: {
+//     opacity: 0,
+//     y: 20,
+//     transition: {
+//       delay: 0.5,
+//       duration: 1,
+//       staggerChildren: 0.2,
+//     },
+//   },
+//   final: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       ease: "easeInOut",
+//     },
+//   },
+// };
+
+const container = {
+  initial: {
+    opacity: 0,
+    transition: {
+      staggerChildren: 0.4,
+    },
+  },
+  final: {
+    opacity: 1,
+  },
+};
+
+const children = {
+  initial: {
+    opacity: 0,
+    y: 40,
+  },
+  final: {
+    transition: {
+      duration: 2,
+    },
+    opacity: 1,
+    y: 0,
+  },
+};
+
 function Features() {
   return (
-    <div className="mt-48 max-w-7xl mx-auto">
-      <h1 className="text-center text-7xl font-serif bg-gradient-to-r from-resolved to-accent pb-2 bg-clip-text text-transparent">
+    <motion.div
+      //   variants={reveal}
+      //   initial={"inital"}
+      //   animate={"final"}
+      className="mt-48 max-w-7xl mx-auto"
+    >
+      <motion.h1
+        variants={children}
+        initial="initial"
+        animate="final"
+        className="text-center text-7xl font-serif bg-gradient-to-r from-resolved to-accent pb-2 bg-clip-text text-transparent"
+      >
         Designed for the Best Outcomes
-      </h1>
-      <p className="text-center text-lg text-text-secondary brightness-150 mt-8 mx-auto w-[500px]">
+      </motion.h1>
+      <motion.p
+        variants={children}
+        initial="initial"
+        animate="final"
+        className="text-center text-lg text-text-secondary brightness-150 mt-8 mx-auto w-[500px]"
+      >
         Every feature is engineered to shave seconds off response time — because
         in emergencies, seconds save lives.
-      </p>
-      <div className=" mt-24  grid grid-cols-3 gap-8 ">
+      </motion.p>
+      <motion.div
+        variants={container}
+        initial={"initial"}
+        whileInView={"final"}
+        viewport={{ once: true, amount: 0.7 }}
+        className=" mt-24  grid grid-cols-3 gap-8 "
+      >
         {features.map((item) => (
-          <Card
-            title={item.title}
-            desc={item.desc}
-            iconBg={item.iconBg}
-            icon={item.icon}
-            tag={item.tag}
-            tagColor={item.tagColor}
-            tabBg={item.tagBg}
-          />
+          <motion.div variants={children}>
+            <Card
+              title={item.title}
+              desc={item.desc}
+              iconBg={item.iconBg}
+              icon={item.icon}
+              tag={item.tag}
+              tagColor={item.tagColor}
+              tabBg={item.tagBg}
+            />
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

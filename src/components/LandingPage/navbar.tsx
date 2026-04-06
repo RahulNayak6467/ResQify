@@ -1,6 +1,28 @@
+import { motion, type Variants } from "motion/react";
+
+const fadeIn: Variants = {
+  initial: {
+    y: -20,
+    opacity: 0,
+  },
+  final: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: "easeInOut",
+    },
+  },
+};
+
 function Navbar() {
   return (
-    <header className="bg-transparent  fixed w-full backdrop-blur-3xl z-999  top-0">
+    <motion.header
+      variants={fadeIn}
+      initial={"initial"}
+      animate={"final"}
+      className="bg-transparent  fixed w-full backdrop-blur-3xl z-999  top-0"
+    >
       <div className="flex items-center justify-between px-8 ">
         <div className=" flex items-center  gap-2">
           <p className="h-3 w-3 rounded-full bg-resolved border border-resolved-border  shadow-[0_0_20px_rgba(0,217,126,1)]"></p>
@@ -33,7 +55,7 @@ function Navbar() {
           </ul>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 }
 

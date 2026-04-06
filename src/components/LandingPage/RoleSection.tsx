@@ -1,4 +1,5 @@
 import { User, FileText, Monitor } from "lucide-react";
+import { motion, type Variants } from "motion/react";
 
 const roles = [
   {
@@ -42,10 +43,60 @@ const roles = [
   },
 ];
 
+const revealAnimation: Variants = {
+  initial: {
+    opacity: 0,
+    y: 100,
+  },
+  final: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const cardContainer: Variants = {
+  inital: {
+    opacity: 0,
+  },
+  final: {
+    opacity: 1,
+
+    transition: {
+      duration: 2,
+      staggerChildren: 0.4,
+    },
+  },
+};
+
+const cardAnimation: Variants = {
+  initial: {
+    opacity: 0,
+    filter: "blur(5px)",
+  },
+  final: {
+    opacity: 1,
+    filter: "none",
+    transition: {
+      duration: 2,
+      ease: "easeInOut",
+    },
+  },
+};
+
 const RolesSection = () => (
   <section className="max-w-7xl mx-auto bg-base mt-24 px-16 py-24">
     {/* heading */}
-    <div className="text-center mb-16">
+    <motion.div
+      variants={revealAnimation}
+      initial="initial"
+      whileInView={"final"}
+      viewport={{ once: true, amount: 0.7 }}
+      className="text-center mb-16"
+    >
       <div className="flex items-center justify-center gap-3 mb-6">
         <div className="w-8 h-px bg-resolved" />
         <span
@@ -71,40 +122,50 @@ const RolesSection = () => (
         Every user sees a purpose-built interface — optimized for their exact
         needs during a crisis.
       </p>
-    </div>
+    </motion.div>
 
     {/* cards */}
     <div className="grid grid-cols-3 gap-5">
       {roles.map(({ icon: Icon, iconBg, iconColor, title, desc, features }) => (
-        <div
+        <motion.div
+          variants={cardContainer}
+          initial="initial"
+          whileInView={"final"}
+          viewport={{ once: true, amount: 0.7 }}
           key={title}
+          whileHover={{ y: 10 }}
           className="bg-surface border border-border rounded-2xl p-7
                      flex flex-col gap-5 hover:border-border2
                      transition-colors duration-200 relative z-100"
         >
           {/* icon */}
-          <div
+          <motion.div
+            variants={cardAnimation}
             className={`w-14 h-14 rounded-xl ${iconBg} flex items-center
                            justify-center flex-shrink-0`}
           >
             <Icon size={24} className={iconColor} />
-          </div>
+          </motion.div>
 
           {/* title + desc */}
           <div>
-            <h3
+            <motion.h3
+              variants={cardAnimation}
               className="font-sans font-bold text-lg text-text-primary
                            leading-tight mb-2"
             >
               {title}
-            </h3>
-            <p className="font-sans text-sm text-text-secondary leading-relaxed">
+            </motion.h3>
+            <motion.p
+              variants={cardAnimation}
+              className="font-sans text-sm text-text-secondary leading-relaxed"
+            >
               {desc}
-            </p>
+            </motion.p>
           </div>
 
           {/* feature list */}
-          <ul className="flex flex-col gap-2.5">
+          <motion.ul variants={cardAnimation} className="flex flex-col gap-2.5">
             {features.map((f) => (
               <li key={f} className="flex items-center gap-2.5">
                 <svg
@@ -124,8 +185,8 @@ const RolesSection = () => (
                 </span>
               </li>
             ))}
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
       ))}
     </div>
   </section>

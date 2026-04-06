@@ -1,4 +1,5 @@
 import { Book } from "lucide-react";
+import { motion } from "motion/react";
 
 interface Feature {
   icon: typeof Book;
@@ -30,6 +31,18 @@ const assignColor = (iconBg: string) => {
   }
 };
 
+const container = {
+  initial: {
+    opacity: 0,
+    transition: {
+      staggerChildren: 1,
+    },
+  },
+  show: {
+    opacity: 1,
+  },
+};
+
 function Card({
   title,
   desc,
@@ -41,25 +54,37 @@ function Card({
   tabBg,
 }: Feature) {
   return (
-    <div className="bg-[#0D0F15] w-full p-6 rounded-2xl  border border-border border-t-2 hover:border-resolved-border   cursor-pointer hover:border-t-resolved  transition-all relative z-50">
+    <motion.div
+      variants={container}
+      initial={"initial"}
+      whileInView={"show"}
+      viewport={{ once: true, amount: 0.7 }}
+      className="bg-[#0D0F15] w-full p-6 rounded-2xl  border border-border border-t-2 hover:border-resolved-border   cursor-pointer hover:border-t-resolved  transition-all relative z-50"
+    >
       <div
         style={{ backgroundColor: iconBg }}
         className={`w-fit p-3  rounded-2xl`}
       >
         <Icon className={assignColor(iconBg)} />
       </div>
-      <h3 className="text-white text-lg mt-4 font-sans font-black tracking-wide">
-        {title}
-      </h3>
-      <p className="mt-2 text-[14px] text-text-secondary brightness-150 w-70 leading-5">
-        {desc}
-      </p>
-      <p
-        className={`w-fit mt-6 uppercase font-bold ${tagColor} ${tabBg}  px-4 py-0.5  text-[10px] rounded-full`}
-      >
-        {tag}
-      </p>
-    </div>
+      <motion.div>
+        <h3 className="text-white text-lg mt-4 font-sans font-black tracking-wide">
+          {title}
+        </h3>
+      </motion.div>
+      <motion.div>
+        <p className="mt-2 text-[14px] text-text-secondary brightness-150 w-70 leading-5">
+          {desc}
+        </p>
+      </motion.div>
+      <motion.div>
+        <p
+          className={`w-fit mt-6 uppercase font-bold ${tagColor} ${tabBg}  px-4 py-0.5  text-[10px] rounded-full`}
+        >
+          {tag}
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }
 
