@@ -1,6 +1,14 @@
 import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
+import {
+  RegisterUserSchema,
+  type RegisterUserSchemaType,
+} from "../../validation/RegsiterValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Loader from "../ui/Loader";
+import { useAuth } from "../../hooks/useAuth";
+import { useAuthContext } from "../../context/AuthProvider";
 type Role = "guest" | "staff" | "admin";
 
 const roles: { id: Role; icon: string; label: string; desc: string }[] = [
@@ -25,8 +33,37 @@ const roles: { id: Role; icon: string; label: string; desc: string }[] = [
 ];
 
 function RegisterForm() {
-  const [role, setRole] = useState<Role>("admin");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterUserSchemaType>({
+    resolver: zodResolver(RegisterUserSchema),
+  });
+
+  const { signUp, isLoading } = useAuth();
+
+  const onSubmit: SubmitHandler<RegisterUserSchemaType> = async (userData) => {
+    await signUp(userData.email, userData.password, {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      role,
+      roomNumber: userData.roomNumber,
+    });
+  };
+
+  const [role, setRole] = useState<Role>("guest");
   const navigate = useNavigate();
+  if (isLoading) {
+    return (
+      <Loader
+        fullscreen
+        bg="mesh"
+        variant="orbital"
+        text="Setting up your account"
+      />
+    );
+  }
 
   return (
     <div className="max-w-[800px] p-6 px-10 border border-border-focus bg-base-raised rounded-r-2xl">
@@ -71,17 +108,23 @@ function RegisterForm() {
         ))}
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="font-mono text-[10px] text-text-secondary uppercase tracking-widest block mb-2">
               First Name
             </label>
             <input
+              {...register("firstName")}
               type="text"
               placeholder="Jaya"
               className="w-full bg-surface-raised border border-border rounded-xl px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint focus:border-critical transition-colors"
             />
+            {errors.firstName && (
+              <span className="text-negative text-sm ml-1">
+                {errors?.firstName?.message}
+              </span>
+            )}
           </div>
 
           <div>
@@ -89,10 +132,16 @@ function RegisterForm() {
               Last Name
             </label>
             <input
+              {...register("lastName")}
               type="text"
               placeholder="Patel"
               className="w-full bg-surface-raised border border-border rounded-xl px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint focus:border-critical transition-colors"
             />
+            {errors.lastName && (
+              <span className="text-negative text-sm ml-1">
+                {errors?.lastName?.message}
+              </span>
+            )}
           </div>
         </div>
 
@@ -101,10 +150,16 @@ function RegisterForm() {
             Email Address
           </label>
           <input
+            {...register("email")}
             type="email"
             placeholder="jpatel@grandmumbai.com"
             className="w-full bg-surface-raised border border-border rounded-xl px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint focus:border-critical transition-colors"
           />
+          {errors.email && (
+            <span className="text-negative text-sm ml-1">
+              {errors?.email?.message}
+            </span>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
@@ -113,10 +168,16 @@ function RegisterForm() {
               Password
             </label>
             <input
+              {...register("password")}
               type="password"
               placeholder="••••••••"
               className="w-full bg-surface-raised border border-border rounded-xl px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint focus:border-critical transition-colors"
             />
+            {errors.password && (
+              <span className="text-negative text-sm ml-1">
+                {errors?.password?.message}
+              </span>
+            )}
           </div>
 
           <div>
@@ -124,24 +185,28 @@ function RegisterForm() {
               Confirm Password
             </label>
             <input
+              {...register("confirmPassword")}
               type="password"
               placeholder="••••••••"
               className="w-full bg-surface-raised border border-border rounded-xl px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint focus:border-critical transition-colors"
             />
+            {errors.confirmPassword && (
+              <span className="text-negative text-sm ml-1">
+                {errors?.confirmPassword?.message}
+              </span>
+            )}
           </div>
         </div>
 
         <div className="mb-8">
           <label className="font-mono text-[10px] text-text-secondary uppercase tracking-widest block mb-2">
-            Hotel Code
+            Hotel Room Number
           </label>
           <div className="flex items-stretch bg-surface-raised border border-border rounded-xl overflow-hidden focus-within:border-critical transition-colors">
-            <span className="font-mono text-xs text-text-secondary bg-surface px-4 flex items-center border-r border-border2 flex-shrink-0 tracking-widest">
-              RQ —
-            </span>
             <input
-              type="text"
-              placeholder="GRAND-MUMBAI-01"
+              {...register("roomNumber")}
+              type="number"
+              placeholder="Ex 402"
               className="flex-1 bg-transparent px-4 py-3 font-mono text-sm text-text-primary outline-none placeholder:text-text-faint"
             />
           </div>
@@ -170,6 +235,7 @@ function RegisterForm() {
 
           <button
             type="submit"
+            onClick={() => console.log(errors)}
             className="bg-critical text-white font-mono font-semibold text-sm tracking-widest rounded-xl py-3.5 px-8 flex items-center gap-2 hover:bg-[#e82020] hover:-translate-y-0.5 shadow-[0_4px_16px_rgba(255,59,59,0.25)] hover:shadow-[0_8px_24px_rgba(255,59,59,0.35)] transition-all duration-200 active:translate-y-0"
           >
             Create account

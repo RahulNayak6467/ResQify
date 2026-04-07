@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { useAuthContext } from "../../context/AuthProvider";
 
 type Role = "guest" | "staff" | "admin";
 
@@ -10,8 +13,20 @@ const roles: { id: Role; icon: string; label: string }[] = [
 ];
 
 const Login = () => {
-  const [role, setRole] = useState<Role>("admin");
+  const [role, setRole] = useState<Role>("guest");
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (userData) => {
+    const userInfo = {
+      email: userData.email,
+      password: userData.password,
+      role,
+    };
+
+    await signIn(userInfo.email, userInfo.password, role);
+  };
 
   return (
     <div className=" bg-base flex items-center h-full justify-center z-100">
@@ -57,7 +72,7 @@ const Login = () => {
           ))}
         </div>
 
-        <form noValidate>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* hotel code */}
           <div className="mb-4">
             <label
@@ -98,6 +113,7 @@ const Login = () => {
               Email Address
             </label>
             <input
+              {...register("email")}
               type="email"
               placeholder="jpatel@grandmumbai.com"
               className="w-full bg-surface-raised border border-border
@@ -125,6 +141,7 @@ const Login = () => {
               </button>
             </div>
             <input
+              {...register("password")}
               type="password"
               placeholder="••••••••••••"
               className="w-full bg-surface-raised border border-border

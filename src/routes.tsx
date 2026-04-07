@@ -10,6 +10,7 @@ import LoginPage from "./components/Login/LoginPage";
 import Register from "./components/SignIn/SignInPage";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
+import ProtectedRoutesProvider from "./context/ProtectedRoutes";
 
 export const routes = createBrowserRouter([
   {
@@ -26,15 +27,28 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/guest",
-    element: <HomePage />,
+    element: (
+      <ProtectedRoutesProvider>
+        <HomePage />,
+      </ProtectedRoutesProvider>
+    ),
   },
   {
     path: "reported",
-    element: <Confirmation />,
+    element: (
+      <ProtectedRoutesProvider>
+        <Confirmation />,
+      </ProtectedRoutesProvider>
+    ),
   },
   {
     path: "/admin",
-    element: <AdminPage />,
+
+    element: (
+      <ProtectedRoutesProvider>
+        <AdminPage />
+      </ProtectedRoutesProvider>
+    ),
     children: [
       {
         path: "overview",
@@ -56,6 +70,10 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/staff",
-    element: <StaffPage />,
+    element: (
+      <ProtectedRoutesProvider>
+        <StaffPage />,
+      </ProtectedRoutesProvider>
+    ),
   },
 ]);
