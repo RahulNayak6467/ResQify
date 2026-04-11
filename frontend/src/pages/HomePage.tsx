@@ -4,8 +4,18 @@ import ReportForm from "../components/ui/ReportForm";
 import ResQifyLogo from "../components/ui/ResqifyIcon";
 import Loader from "../components/ui/Loader";
 import { useAuth } from "../hooks/useAuth";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { UserQuerySchema } from "../validation/guestQueryValidation";
 
 function HomePage() {
+  //   const {
+  //     register,
+  //     handleSubmit,
+  //     formState: { errors },
+  //   } = useForm({
+  //     resolver: zodResolver(UserQuerySchema),
+  //   });
   const { signOut, isLoading } = useAuth();
 
   const handleSignOut = async () => {

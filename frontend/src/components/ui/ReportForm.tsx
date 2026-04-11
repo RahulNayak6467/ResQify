@@ -1,12 +1,47 @@
 import { useNavigate } from "react-router-dom";
 import { EMERGENCY_TYPES } from "../../constants/emergency_types";
 import EmergencyTypes from "./emergencytypes";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserQuerySchema } from "../../validation/guestQueryValidation";
+import { useState } from "react";
+import ErrorMessage from "../SignIn/errormessage";
+import useClassify from "../../hooks/useClassify";
 
 function ReportForm() {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
+  const [emergencyType, setEmergencyType] = useState<string>("");
+  const { classifyIncident } = useClassify();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(UserQuerySchema),
+  });
+  const onSubmit = async (userQuery) => {
+    if (!emergencyType) {
+      alert("Enter a emergencyType");
+      return;
+    }
+    const userQueryData = {
+      roomNumber: userQuery.roomNumber,
+      name: userQuery.Name,
+      description: userQuery.description,
+      emergencyType,
+    };
+
+    console.log(userQueryData);
+
+    const result = await classifyIncident(userQueryData);
+    console.log(result);
+  };
   return (
     <section className="bg-base-raised w-[550px] h-[580px] mx-auto border border-border-strong rounded-2xl">
-      <form className="p-8  bg-base-raised rounded-2xl border-border-strong">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-8  bg-base-raised rounded-2xl border-border-strong"
+      >
         <div className="flex flex-col ">
           <label
             htmlFor="room-number"
@@ -16,11 +51,16 @@ function ReportForm() {
           </label>
           <div className="flex gap-2 mt-2">
             <input
+              {...register("roomNumber")}
               className="py-1.5 px-4 w-30 border border-border-strong"
               type="number"
               placeholder="e.g. 412"
             />
+            {errors.roomNumber && (
+              <ErrorMessage message={errors?.roomNumber?.message as string} />
+            )}
             <input
+              {...register("Name")}
               className="py-1.5  px-4 border border-border-strong w-full"
               type="text"
               placeholder="Your name (optional)"
@@ -37,6 +77,8 @@ function ReportForm() {
           <div className="grid grid-cols-3 gap-x-4 gap-y-2 ">
             {EMERGENCY_TYPES.map((emergency) => (
               <EmergencyTypes
+                emergencyType={emergencyType}
+                setEmergencyType={setEmergencyType}
                 key={emergency.label}
                 icon={emergency.icon}
                 label={emergency.label}
@@ -48,13 +90,17 @@ function ReportForm() {
               Describe the situation
             </p>
             <input
+              {...register("description")}
               type="text"
               placeholder="e.g. My roommate is having trouble breathing "
               className="w-full bg-surface pb-30 text-xs px-4 py-4 mt-2 border-border-strong"
             />
+            {errors.description && (
+              <ErrorMessage message={errors?.description?.message as string} />
+            )}
             <div className="mt-8">
               <button
-                onClick={() => naviagte("/reported")}
+                // onClick={() => naviagte("/reported")}
                 type="submit"
                 className="text-text-primary font-bold w-full text-center py-2  flex justify-center gap-2 items-center bg-critical rounded-xl cursor-pointer hover:shadow-critical "
               >
