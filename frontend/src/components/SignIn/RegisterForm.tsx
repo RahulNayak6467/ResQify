@@ -42,7 +42,7 @@ function RegisterForm() {
     resolver: zodResolver(RegisterUserSchema),
   });
 
-  const { signUp, isLoading } = useAuth();
+  const { signUp, isLoading, insertProfilesData } = useAuth();
 
   const onSubmit: SubmitHandler<RegisterUserSchemaType> = async (userData) => {
     await signUp(userData.email, userData.password, {
@@ -51,6 +51,15 @@ function RegisterForm() {
       role,
       roomNumber: userData.roomNumber,
     });
+
+    const userProfile = {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      role,
+      roomNumber: userData.roomNumber,
+    };
+
+    await insertProfilesData(userProfile);
   };
 
   const [role, setRole] = useState<Role>("guest");

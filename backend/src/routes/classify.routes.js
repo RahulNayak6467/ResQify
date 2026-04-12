@@ -16,10 +16,15 @@ router.post("/classify", async (req, res) => {
   const aiResponseData = { ...aiResponse, response_time };
 
   console.log(aiResponseData);
-  await insertIncidents();
-  await insertAiClassification(aiResponseData);
+  const incidentInfo = await insertIncidents(req.body, aiResponse);
+  const aiClassificationInfo = await insertAiClassification(aiResponseData);
 
-  res.json({ message: "Data Received" });
+  console.log(incidentInfo);
+  console.log();
+  res.json({
+    incidentInfo,
+    aiClassificationInfo,
+  });
 });
 
 export default router;

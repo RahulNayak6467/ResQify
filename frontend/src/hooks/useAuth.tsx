@@ -6,6 +6,15 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  interface profilesTableProps {
+    firstName: string;
+    lastName: string;
+    roomNumber: number;
+    role: string;
+    staff_status?: string;
+    team_category?: string;
+  }
+
   const signUp = async (
     email: string,
     password: string,
@@ -70,5 +79,21 @@ export const useAuth = () => {
     console.log("User successfully loggedout");
   };
 
-  return { signUp, isLoading, signIn, signOut };
+  const insertProfilesData = async (data: profilesTableProps) => {
+    const userData = {
+      first_name: data.firstName,
+      last_name: data.lastName,
+      hotel_room_number: data.roomNumber,
+      role: data.role,
+      staff_status: data.staff_status ?? null,
+      team_category: data.team_category ?? null,
+    };
+    const { error } = await supabase.from("profiles").insert(userData).single();
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log("User is registered in the profiles table");
+  };
+
+  return { signUp, isLoading, signIn, signOut, insertProfilesData };
 };

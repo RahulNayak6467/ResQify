@@ -7,11 +7,16 @@ import { UserQuerySchema } from "../../validation/guestQueryValidation";
 import { useState } from "react";
 import ErrorMessage from "../SignIn/errormessage";
 import useClassify from "../../hooks/useClassify";
+import Loader from "./Loader";
+import { useAuthContext } from "../../context/AuthProvider";
 
 function ReportForm() {
   const navigate = useNavigate();
   const [emergencyType, setEmergencyType] = useState<string>("");
   const { classifyIncident } = useClassify();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user } = useAuthContext();
+
   const {
     register,
     handleSubmit,
@@ -19,23 +24,40 @@ function ReportForm() {
   } = useForm({
     resolver: zodResolver(UserQuerySchema),
   });
-  const onSubmit = async (userQuery) => {
+  const onSubmit = async (userQuery: any) => {
     if (!emergencyType) {
       alert("Enter a emergencyType");
       return;
     }
+    console.log(user);
     const userQueryData = {
       roomNumber: userQuery.roomNumber,
       name: userQuery.Name,
       description: userQuery.description,
       emergencyType,
+      guest_id: user,
     };
 
     console.log(userQueryData);
-
+    setIsLoading(true);
     const result = await classifyIncident(userQueryData);
+    setIsLoading(false);
+    navigate("/guest/reported", {
+      state: {
+        // incident: result.incidentInfo,
+        // classification: result.aiclassificationInfo,
+        incident: result.incidentInfo,
+        classification: result.aiClassificationInfo,
+      },
+    });
     console.log(result);
   };
+
+  if (isLoading) {
+    return (
+      <Loader fullscreen bg="mesh" variant="orbital" text="Ai analyzing" />
+    );
+  }
   return (
     <section className="bg-base-raised w-[550px] h-[580px] mx-auto border border-border-strong rounded-2xl">
       <form
@@ -100,7 +122,6 @@ function ReportForm() {
             )}
             <div className="mt-8">
               <button
-                // onClick={() => naviagte("/reported")}
                 type="submit"
                 className="text-text-primary font-bold w-full text-center py-2  flex justify-center gap-2 items-center bg-critical rounded-xl cursor-pointer hover:shadow-critical "
               >

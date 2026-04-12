@@ -35,7 +35,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "reported",
+        path: "/guest/reported",
         element: (
           <ProtectedRoutesProvider>
             <Confirmation />
