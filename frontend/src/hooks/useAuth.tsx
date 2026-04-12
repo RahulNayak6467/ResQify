@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const useAuth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const PAGE_SIZE = 7;
 
   interface profilesTableProps {
     firstName: string;
@@ -95,5 +96,28 @@ export const useAuth = () => {
     console.log("User is registered in the profiles table");
   };
 
-  return { signUp, isLoading, signIn, signOut, insertProfilesData };
+  const getIncidentsData = async (page: number) => {
+    setIsLoading(true);
+    const { data, error } = await supabase
+      .from("incidents")
+      .select(`*, aiclassification(*)`)
+      .order("created_at", { ascending: false })
+      .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+
+    setIsLoading(false);
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data || [];
+  };
+
+  return {
+    signUp,
+    isLoading,
+    signIn,
+    signOut,
+    insertProfilesData,
+    getIncidentsData,
+  };
 };

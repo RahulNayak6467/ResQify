@@ -20,13 +20,15 @@ Respond ONLY in raw JSON. Replace each value with the actual data, do not return
 
 {
 "incident_severity": "critical|moderate|low",
-"ai_summary": "professional 1-2 sentenance summary of the incident",
+"ai_summary": "professional 2-3 sentenance summary of the incident",
 "ai_suggestions": "what the assigned team should do immeadiately",
 "emergency_category": "Medical|Fire|Security|Flood|Other",
-"ai_confidence": 0-100,
+"ai_confidence": "0-100",
 "emergency_team": "MEdical|Fire|Security|Maintenance",
-"escalation": "if the case requires serious facilities like police,fireman,hospital else return false",
+"escalation": "if the case requires serious facilities like police,fireman,hospital return true else return false",
 "score": "a number from 0-10 based on the severity"
+"crisp": "a one or two word sentence regarding the situation"
+ "one_line_summary" : "a professional 1 line summary of the incident which is easy to understand and properly communicates"
 }`;
 
 const getAIData = async (message) => {
@@ -61,7 +63,7 @@ const getAIData = async (message) => {
   try {
     const data = await response.json();
     console.log(data);
-    const response_time = (data?.usage?.total_time).toFixed(2);
+    const response_time = data?.usage?.total_time?.toFixed(2);
     const aiResponse = data?.choices[0]?.message?.content;
     const aiResponseData = { aiResponse, response_time };
     return aiResponseData;
@@ -71,3 +73,5 @@ const getAIData = async (message) => {
 };
 
 export default getAIData;
+
+// // "one_line_summary" : "a professional 1 line summary of the incident which is easy to understand and properly communicates"

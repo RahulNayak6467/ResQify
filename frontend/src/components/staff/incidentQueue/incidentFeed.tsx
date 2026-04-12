@@ -12,6 +12,8 @@ interface Incident {
   aiTag: string;
   time: string;
   live?: boolean;
+  confidence?: string;
+  oneLineSummary: string;
 }
 
 // const severityLeftBorderMap: Record<string, string> = {
@@ -24,6 +26,7 @@ const severityBadgeMap: Record<string, string> = {
   CRITICAL: "bg-critical-muted text-critical border-critical-border",
   MODERATE: "bg-moderate-muted text-moderate border-moderate-border",
   RESOLVED: "bg-surface-raised text-resolved border-resolved-border",
+  LOW: "bg-accent-raised text-accent border-accent-border",
 };
 
 const typeTagMap: Record<string, string> = {
@@ -44,26 +47,28 @@ function IncidentFeed({
   type,
   aiTag,
   live,
+  confidence,
+  oneLineSummary,
 }: Incident) {
   return (
     <div className="flex flex-col gap-2 p-4 bg-base cursor-pointer hover:bg-surface transition-all border-b border-border">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 ">
-          <span className="text-[10px] uppercase text-text-secondary font-mono font-extralight tracking-wider">
+          <span className="text-[10px] uppercase text-text-secondary font-sans font-extralight tracking-wider">
             {id}
           </span>
           <span className="text-[10px] uppercase text-text-secondary font-mono font-extralight tracking-wider">
-            {room}
+            ROOM {room}
           </span>
           <span className="text-[10px] uppercase text-text-secondary font-mono font-extralight tracking-wider">
-            {floor}
+            FLOOR {Math.floor(Number(floor) / 100)}
           </span>
         </div>
         <div className="flex items-center gap-2 ">
           <p
-            className={`${severityBadgeMap[severity]} ${typeTagMap[severity]} text-[10px] px-3 py-0.5 rounded-sm border`}
+            className={`${severityBadgeMap[severity.toUpperCase()]} ${typeTagMap[severity.toUpperCase()]} text-[10px] px-3 py-0.5 rounded-sm border`}
           >
-            {severity}
+            {severity.toUpperCase()}
           </p>
           <p className="text-text-secondary font-sans text-xs tracking-normal font-medium">
             {time}
@@ -72,7 +77,7 @@ function IncidentFeed({
       </div>
       <div>
         <h4 className="text-text-primary text-md font-sans tracking-wider font-bold">
-          {title}
+          {oneLineSummary}
         </h4>
       </div>
       <div>
@@ -83,10 +88,10 @@ function IncidentFeed({
           {type}
         </span>
         <span className="bg-surface-raised text-text-secondary px-3 py-0.5 border border-border uppercase rounded-sm font-extrabold">
-          {floor}
+          FLOOR {Number(floor) % 10}
         </span>
         <span className="text-accent border border-accent-muted bg-accent-muted px-3 py-0.5 rounded-sm font-extrabold">
-          {aiTag}
+          AI:{confidence}% {aiTag}
         </span>
         {live ? (
           <div className="flex items-center gap-1">

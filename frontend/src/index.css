@@ -1,6 +1,8 @@
-/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Syne:wght@800&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   /* ── Backgrounds ── */
@@ -10,6 +12,7 @@
   --color-surface: #111520;
   --color-surface-raised: #161c2a;
   --color-floormap: rgba(0, 217, 126, 0.1);
+
   /* ── Borders ── */
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.11);
@@ -53,7 +56,9 @@
   --shadow-surface: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-critical: 0 4px 14px rgba(255, 59, 59, 0.25);
-  --shadow-glow: 0 8px 16px rgba(0, 217, 126, 1); /* ── Border Radius ── */
+  --shadow-glow: 0 8px 16px rgba(0, 217, 126, 1);
+
+  /* ── Border Radius ── */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
@@ -75,7 +80,6 @@
       transform: translateY(0px);
     }
   }
-
   @keyframes marquee {
     from {
       transform: translateX(-50%);
@@ -84,7 +88,6 @@
       transform: translateX(0%);
     }
   }
-
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -95,7 +98,6 @@
       transform: translateY(0);
     }
   }
-
   @keyframes blink {
     0%,
     100% {
@@ -105,7 +107,6 @@
       opacity: 0.2;
     }
   }
-
   @keyframes sosPulse {
     0%,
     100% {
@@ -115,7 +116,6 @@
       box-shadow: 0 0 0 12px rgba(255, 59, 59, 0);
     }
   }
-
   @keyframes flashRoom {
     0%,
     100% {
@@ -127,13 +127,35 @@
   }
 }
 
+/* ── shadcn CSS variables — scoped so they don't conflict ── */
+:root {
+  --radius: 0.625rem;
+  --background: #07080c;
+  --foreground: #c8d0e0;
+  --card: #111520;
+  --card-foreground: #c8d0e0;
+  --popover: #0c0f16;
+  --popover-foreground: #c8d0e0;
+  --primary: #4a9eff;
+  --primary-foreground: #07080c;
+  --secondary: #161c2a;
+  --secondary-foreground: #c8d0e0;
+  --muted: #161c2a;
+  --muted-foreground: #5a6475;
+  --accent: #4a9eff;
+  --accent-foreground: #07080c;
+  --destructive: #ff3b3b;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: #4a9eff;
+}
+
 /* ── Base ── */
 @layer base {
   body {
-    @apply bg-base text-text-primary font-sans;
+    @apply bg-background text-text-primary font-sans;
   }
 
-  /* inputs */
   input,
   textarea,
   select {
@@ -150,11 +172,6 @@
 
 /* ── Utilities ── */
 @layer utilities {
-  /* severity pills */
-  /* .badge-critical {
-    @apply bg-crit;
-  } */
-
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -170,6 +187,7 @@
       transparent 70%
     );
   }
+
   .bg-gradient {
     background: linear-gradient(135deg, #fff 0%, #e8eaf0 40%, #00e5a0 100%);
     -webkit-background-clip: text;

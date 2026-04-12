@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PaginationStaff from "./pagination";
+// import Pagination from "./pagination";
 
 export interface Incident {
   id: string;
@@ -44,7 +46,13 @@ export type IncidentType = "MEDICAL" | "FIRE" | "SECURITY" | "MAINTENANCE";
 //   MAINTENANCE: "bg-resolved-muted text-resolved border-resolved-border",
 // };
 
-const IncidentFeedHeader = () => {
+const IncidentFeedHeader = ({
+  page,
+  handlePage,
+}: {
+  page: number;
+  handlePage: (id: number) => void;
+}) => {
   const [active, setActive] = useState<FilterTab>("ALL");
 
   return (
@@ -52,7 +60,11 @@ const IncidentFeedHeader = () => {
       <span className="font-mono text-xs font-semibold text-text-secondary uppercase tracking-widest">
         Incident Queue — Live
       </span>
-
+      {/* <Pagination
+        currentPage={100}
+        totalPages={1000}
+      /> */}
+      <PaginationStaff handlePage={handlePage} />
       <div className="flex items-center gap-1">
         {filterTabs.map((tab) => (
           <button

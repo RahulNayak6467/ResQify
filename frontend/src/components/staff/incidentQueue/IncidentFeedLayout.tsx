@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import Loader from "../../ui/Loader";
 import IncidentFeed from "./incidentFeed";
 import IncidentFeedHeader from "./topbar";
 
@@ -66,24 +69,143 @@ const incidents: Incident[] = [
     time: "21:22 PM",
     live: false,
   },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
+  {
+    id: "#INC-2844",
+    room: "ROOM 118",
+    floor: "FLOOR 1",
+    title: "Burst pipe — resolved",
+    desc: "Maintenance resolved. Guest moved to room 120.",
+    severity: "RESOLVED",
+    type: "MAINTENANCE",
+    aiTag: "AI: 99% pipe burst",
+    time: "21:22 PM",
+    live: false,
+  },
 ];
 
+const formatTime = (isoString: string): string => {
+  return new Date(isoString).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
+// Usage
+// "03:09 PM"
+
 function IncidentFeedLayout() {
+  const { getIncidentsData, isLoading } = useAuth();
+  const [page, setPage] = useState(0);
+  const handlePage = (id: number) => {
+    setPage(() => id);
+  };
+
+  const [incident, setIncident] = useState<any[]>([]);
+  //   const [incident, SetIncident] = useState<any[]>([]);
+  //   //   const handleTableResponse = async () => {
+  //   //     const getIncidentDataResponse = await getIncidentData();
+  //   //     const geyAiDataResponse = await getAiData();
+  //   //   };
+  useEffect(() => {
+    const handleTableResponse = async () => {
+      const incidentData = await getIncidentsData(page);
+      console.log(incidentData);
+      setIncident(incidentData);
+    };
+    handleTableResponse();
+  }, [page]);
+
+  if (isLoading) {
+    return (
+      <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />
+    );
+  }
+
+  console.log(page);
+  console.log(incident);
+
+  //   console.log(incident[0].aiclassification);
+
   return (
     <section className="border-r border-border-strong h-screen">
-      <IncidentFeedHeader />
-      {incidents.map((incident) => (
+      <IncidentFeedHeader page={page} handlePage={handlePage} />
+      {incident.map((incident) => (
         <IncidentFeed
-          id={incident.id}
-          room={incident.room}
-          floor={incident.floor}
-          title={incident.title}
-          desc={incident.desc}
-          severity={incident.severity}
-          type={incident.type}
-          aiTag={incident.aiTag}
-          time={incident.time}
-          live={incident.live}
+          id={incident.INC_code}
+          room={incident.room_number}
+          floor={incident.room_number}
+          title={incident?.aiclassification?.ai_summary}
+          desc={incident?.aiclassification?.ai_suggestions}
+          severity={incident.incident_severity}
+          type={incident?.aiclassification?.emergency_team}
+          aiTag={incident?.aiclassification?.crisp ?? "Critical"}
+          time={formatTime(incident.created_at)}
+          live={incident.incident_severity !== "resolved"}
+          confidence={incident?.aiclassification?.ai_confidence}
+          oneLineSummary={
+            incident?.aiclassification?.one_line_summary ?? "Hello"
+          }
         />
       ))}
     </section>
