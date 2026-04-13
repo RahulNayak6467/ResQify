@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import ProtectedRoutesProvider from "./context/ProtectedRoutes";
 import AuthProvider from "./context/AuthProvider";
 import RootRedirect from "./routesredirect";
+import StaffContextProvider from "./context/staffContext";
 
 export const routes = createBrowserRouter([
   {
@@ -46,7 +47,9 @@ export const routes = createBrowserRouter([
         path: "staff",
         element: (
           <ProtectedRoutesProvider>
-            <StaffPage />
+            <StaffContextProvider>
+              <StaffPage />
+            </StaffContextProvider>
           </ProtectedRoutesProvider>
         ),
       },

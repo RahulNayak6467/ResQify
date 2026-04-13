@@ -2,6 +2,7 @@ import express from "express";
 import getAIData from "../services/ai.services.js";
 import {
   insertAiClassification,
+  insertIncidentEvents,
   insertIncidents,
 } from "../services/supabase.services.js";
 console.log("classify routes loaded");
@@ -18,9 +19,10 @@ router.post("/classify", async (req, res) => {
   console.log(aiResponseData);
   const incidentInfo = await insertIncidents(req.body, aiResponse);
   const aiClassificationInfo = await insertAiClassification(aiResponseData);
+  const incidentEventInfo = await insertIncidentEvents(req.body);
 
   console.log(incidentInfo);
-  console.log();
+  console.log(incidentEventInfo);
   res.json({
     incidentInfo,
     aiClassificationInfo,

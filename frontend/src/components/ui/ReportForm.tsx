@@ -25,10 +25,13 @@ function ReportForm() {
     resolver: zodResolver(UserQuerySchema),
   });
   const onSubmit = async (userQuery: any) => {
+    console.log("onSubmit called", new Date().toISOString());
     if (!emergencyType) {
       alert("Enter a emergencyType");
       return;
     }
+
+    // rest of code
     console.log(user);
     const userQueryData = {
       roomNumber: userQuery.roomNumber,

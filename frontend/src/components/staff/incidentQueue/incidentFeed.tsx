@@ -14,6 +14,7 @@ interface Incident {
   live?: boolean;
   confidence?: string;
   oneLineSummary: string;
+  onClick: () => void;
 }
 
 // const severityLeftBorderMap: Record<string, string> = {
@@ -49,9 +50,13 @@ function IncidentFeed({
   live,
   confidence,
   oneLineSummary,
+  onClick,
 }: Incident) {
   return (
-    <div className="flex flex-col gap-2 p-4 bg-base cursor-pointer hover:bg-surface transition-all border-b border-border">
+    <div
+      onClick={onClick}
+      className="flex flex-col gap-2 p-4 bg-base cursor-pointer hover:bg-surface transition-all border-b border-border"
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 ">
           <span className="text-[10px] uppercase text-text-secondary font-sans font-extralight tracking-wider">

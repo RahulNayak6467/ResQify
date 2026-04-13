@@ -1,4 +1,5 @@
-import type { FC } from "react";
+import { useStaff } from "../../../context/staffContext";
+import { supabase } from "../../../lib/supabaseclient";
 
 interface TimelineEvent {
   label: string;
@@ -26,40 +27,79 @@ const textColorMap: Record<string, string> = {
   pending: "text-text-faint",
 };
 
-const IncidentTimeline: FC = () => (
-  <div className="p-8">
-    <p className="font-mono text-[10px] text-text-faint uppercase tracking-widest mb-3">
-      Timeline
-    </p>
+const formatTime = (timestamp: string, responseTime?: number) => {
+  const date = new Date(
+    new Date(timestamp).getTime() + (responseTime || 0) * 1000,
+  );
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+};
 
-    <div className="flex flex-col">
-      {timeline.map(({ label, time, status }, i) => (
-        <div key={i} className="flex gap-3 relative ">
-          {/* vertical connector line */}
-          {i !== timeline.length - 1 && (
-            <div className="absolute left-[5px] top-3 bottom-0 w-px border border-border-strong bg-border2" />
-          )}
+const IncidentTimeline = () => {
+  //   const toTimestamptz = (date = new Date()) => {
+  //     return date.toISOString();
+  //   }; const updateApproved = async (id: string) => {
+  //     const { data, error } = await supabase
+  //       .from("incidentevents")
+  //       .update({ approved_time: toTimestamptz() })
+  //       .eq("incident_id", id);
 
-          {/* dot */}
-          <div
-            className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${status === "active" ? "animate-blink" : ""} mt-0.5 z-10 ${dotColorMap[status]}`}
-          />
+  //     if (error) {
+  //       throw new Error(error.message);
+  //     }
 
-          {/* text */}
-          <div className="pb-4">
-            <p
-              className={`font-mono text-sm font-medium leading-tight ${textColorMap[status]}`}
-            >
-              {label}
-            </p>
-            <p className="font-mono text-xs text-text-faint mt-0.5">
-              {time ?? "—"}
-            </p>
+  //     console.log(data);
+  //   };
+  const { selectedIncident } = useStaff();
+
+  if (!selectedIncident) return;
+  console.log(formatTime(selectedIncident.created_at, 0));
+  console.log(
+    formatTime(
+      selectedIncident.aiclassification.created_at,
+      selectedIncident.aiclassification.response_time,
+    ),
+  );
+
+  return (
+    <div className="p-8">
+      <p className="font-mono text-[10px] text-text-faint uppercase tracking-widest mb-3">
+        Timeline
+      </p>
+
+      <div className="flex flex-col">
+        {timeline.map(({ label, time, status }, i) => (
+          <div key={i} className="flex gap-3 relative ">
+            {/* vertical connector line */}
+            {i !== timeline.length - 1 && (
+              <div className="absolute left-[5px] top-3 bottom-0 w-px border border-border-strong bg-border2" />
+            )}
+
+            {/* dot */}
+            <div
+              className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${status === "active" ? "animate-blink" : ""} mt-0.5 z-10 ${dotColorMap[status]}`}
+            />
+
+            {/* text */}
+            <div className="pb-4">
+              <p
+                className={`font-mono text-sm font-medium leading-tight ${textColorMap[status]}`}
+              >
+                {label}
+              </p>
+              <p className="font-mono text-xs text-text-faint mt-0.5">
+                {time ?? "—"}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default IncidentTimeline;

@@ -1,8 +1,47 @@
+import { useStaff } from "../../../context/staffContext";
+import { supabase } from "../../../lib/supabaseclient";
 import Analysis from "./aianalysis";
 import IncidentDetail from "./incidentdetail";
 import IncidentTimeline from "./timelinevent";
 
 function RightBarLayout() {
+  const toTimestamptz = (date = new Date()) => {
+    return date.toISOString();
+  };
+  const { selectedIncident } = useStaff();
+  console.log(selectedIncident);
+  const resolveUpdateIncident = async (id: string) => {
+    if (selectedIncident.incident_severity === "resolved") {
+      return;
+    }
+    const { data, error } = await supabase
+      .from("incidents")
+      .update({ incident_severity: "resolved", resolved_at: toTimestamptz() })
+      .eq("id", id)
+      .select();
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log(data);
+  };
+  const updateApproved = async (id: string) => {
+    const { data, error } = await supabase
+      .from("incidentevents")
+      .update({ approved_time: toTimestamptz() })
+      .eq("incident_id", id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    console.log(data);
+  };
+  //   if (isLoading) {
+  //     return (
+  //       <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />
+  //     );
+  //   }
+  if (!selectedIncident) return;
   return (
     <div className="flex flex-col bg-base-raised w-full border-l border-l-border h-screen">
       <IncidentDetail />
@@ -17,15 +56,24 @@ function RightBarLayout() {
         </button>
         <button
           type="button"
+          disabled={selectedIncident?.incident_severity === "resolved"}
+          style={{
+            opacity:
+              selectedIncident?.incident_severity === "resolved" ? 0.2 : 1,
+          }}
+          onClick={() => resolveUpdateIncident(selectedIncident?.id)}
           className="uppercase text-resolved text-[12px] py-2 w-[95%] mx-auto bg-resolved-muted border border-resolved-border rounded-md cursor-pointer hover:brightness-125 transition-all"
         >
-          Mark resolved
+          {selectedIncident?.incident_severity === "resolved"
+            ? "resolved"
+            : "Mark Resolved"}
         </button>
         <button
+          onClick={() => updateApproved(selectedIncident.id)}
           type="button"
-          className="uppercase text-text-secondary text-[12px] py-2 w-[95%] mx-auto bg-surface border border-border rounded-md hover:brightness-125 transition-all cursor-pointer"
+          className="uppercase text-accent text-[12px] py-2 w-[95%] mx-auto bg-accent-muted border border-accent-border rounded-md hover:brightness-125 transition-all cursor-pointer"
         >
-          Add note
+          Approved
         </button>
       </div>
     </div>

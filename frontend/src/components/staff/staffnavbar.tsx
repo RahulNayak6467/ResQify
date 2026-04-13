@@ -1,10 +1,18 @@
 import { LogOut } from "lucide-react";
-import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Loader from "../ui/Loader";
+import { useAuthContext } from "../../context/AuthProvider";
 
-const StaffTopbar: FC = () => {
+interface incidentTableDataProps {
+  incident_severity: string;
+}
+
+const StaffTopbar = ({
+  incidentTableData,
+}: {
+  incidentTableData: incidentTableDataProps[] | null;
+}) => {
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -24,6 +32,9 @@ const StaffTopbar: FC = () => {
   }, []);
 
   const { signOut, isLoading } = useAuth();
+  const { user } = useAuthContext();
+  //   console.log(user?.user_metadata?.firstName[0]);
+  //   console.log(user?.user_metadata?.lastName);
 
   const handleSignOut = async () => {
     await signOut();
@@ -46,12 +57,12 @@ const StaffTopbar: FC = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-2 border-l border-border2 pl-4">
+        {/* <div className="flex items-center gap-2 border-l border-border2 pl-4">
           <div className="w-1.5 h-1.5 rounded-full bg-resolved animate-blink" />
           <span className="font-mono text-xs text-text-secondary tracking-wide">
-            3 ACTIVE · SYSTEM LIVE
+            {incidentTableData?.length ?? 0} ACTIVE · SYSTEM LIVE
           </span>
-        </div>
+        </div> */}
       </div>
 
       {/* right */}
@@ -59,7 +70,7 @@ const StaffTopbar: FC = () => {
         <div className="flex items-center gap-1.5 bg-critical-muted border border-critical-border rounded px-3 py-1">
           <div className="w-1.5 h-1.5 rounded-full bg-critical animate-blink" />
           <span className="font-mono text-xs font-semibold text-critical tracking-wide">
-            3 ALERTS
+            {incidentTableData?.length ?? 0} ALERTS
           </span>
         </div>
 
@@ -68,7 +79,8 @@ const StaffTopbar: FC = () => {
         </span>
 
         <span className="font-mono text-xs text-text-secondary tracking-wide">
-          STAFF: J.PATEL
+          STAFF: {user?.user_metadata?.firstName[0].toUpperCase()}.
+          {user?.user_metadata?.lastName.toUpperCase()}
         </span>
         <button
           onClick={() => handleSignOut()}

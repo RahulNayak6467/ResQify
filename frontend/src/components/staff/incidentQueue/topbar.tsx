@@ -16,7 +16,7 @@ export interface Incident {
 }
 // constants/incidents.ts
 
-const filterTabs = ["ALL", "CRITICAL", "MEDICAL", "FIRE", "RESOLVED"] as const;
+const filterTabs = ["ALL", "CRITICAL", "MODERATE", "LOW", "RESOLVED"] as const;
 export type FilterTab = (typeof filterTabs)[number];
 
 // types/incident.ts
@@ -47,11 +47,15 @@ export type IncidentType = "MEDICAL" | "FIRE" | "SECURITY" | "MAINTENANCE";
 // };
 
 const IncidentFeedHeader = ({
+  handleCategory,
   page,
   handlePage,
+  totalPages,
 }: {
+  handleCategory: (category: string) => void;
   page: number;
   handlePage: (id: number) => void;
+  totalPages: number;
 }) => {
   const [active, setActive] = useState<FilterTab>("ALL");
 
@@ -64,12 +68,19 @@ const IncidentFeedHeader = ({
         currentPage={100}
         totalPages={1000}
       /> */}
-      <PaginationStaff handlePage={handlePage} />
+      <PaginationStaff
+        currentPage={page}
+        totalPages={totalPages}
+        handlePage={handlePage}
+      />
       <div className="flex items-center gap-1">
         {filterTabs.map((tab) => (
           <button
             key={tab}
-            onClick={() => setActive(tab)}
+            onClick={() => {
+              setActive(tab);
+              handleCategory(tab);
+            }}
             className={`
               font-mono text-[10px] font-medium px-3 py-1.5 rounded
               border tracking-widest uppercase transition-all cursor-pointer

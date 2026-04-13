@@ -53,7 +53,7 @@ const getAIData = async (message) => {
           },
         ],
         temperature: 0.1, // 0-2, lower = more consistent/deterministic
-        max_tokens: 500, // limit response length
+        max_tokens: 1024, // limit response length
         top_p: 0.9, // nucleus sampling
         response_format: { type: "json_object" },
       }),

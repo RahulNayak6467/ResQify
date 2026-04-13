@@ -97,19 +97,22 @@ export const useAuth = () => {
   };
 
   const getIncidentsData = async (page: number) => {
-    setIsLoading(true);
-    const { data, error } = await supabase
+    // setIsLoading(true);
+    const { data, count, error } = await supabase
       .from("incidents")
-      .select(`*, aiclassification(*)`)
+      .select(`*, aiclassification(*)`, { count: "exact" })
       .order("created_at", { ascending: false })
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
-    setIsLoading(false);
+    // setIsLoading(false);
     if (error) {
       throw new Error(error.message);
     }
-
-    return data || [];
+    // console.log("Data", data);
+    // const newDataResponse = [...data, count];
+    // console.log(newDataResponse);
+    //   return {data || [], count || 0};
+    return data ? { data, count } : { data: [], count: 0 };
   };
 
   return {

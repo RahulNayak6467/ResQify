@@ -3,6 +3,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import Loader from "../../ui/Loader";
 import IncidentFeed from "./incidentFeed";
 import IncidentFeedHeader from "./topbar";
+import { useStaff } from "../../../context/staffContext";
 
 interface Incident {
   id: string;
@@ -155,43 +156,76 @@ const formatTime = (isoString: string): string => {
 // "03:09 PM"
 
 function IncidentFeedLayout() {
-  const { getIncidentsData, isLoading } = useAuth();
-  const [page, setPage] = useState(0);
-  const handlePage = (id: number) => {
-    setPage(() => id);
-  };
+  //   const { isLoading } = useAuth();
+  //   const [page, setPage] = useState(0);
+  //   const [totalPages, setTotalPages] = useState(0);
+  //   const handlePage = (id: number) => {
+  //     setPage(() => id);
+  //   };
 
-  const [incident, setIncident] = useState<any[]>([]);
+  //   const [incident, setIncident] = useState<any[]>([]);
+  const {
+    page,
+    handlePage,
+    incident,
+    totalPages,
+    setSelectedIncident,
+    setIncident,
+  } = useStaff();
+  const [incidentCategory, setIncidentCategory] = useState("ALL");
+  const handleCategory = (category: string) => {
+    setIncidentCategory(category);
+  };
+  console.log(incidentCategory);
+
+  let incidentCategoryData = [...incident];
+  if (incidentCategory !== "ALL") {
+    incidentCategoryData = incident.filter(
+      (inc) => inc.incident_severity.toUpperCase() === incidentCategory,
+    );
+  } else {
+    incidentCategoryData = incident;
+  }
+  console.log(incidentCategory);
+  console.log(incidentCategoryData);
   //   const [incident, SetIncident] = useState<any[]>([]);
   //   //   const handleTableResponse = async () => {
   //   //     const getIncidentDataResponse = await getIncidentData();
   //   //     const geyAiDataResponse = await getAiData();
   //   //   };
-  useEffect(() => {
-    const handleTableResponse = async () => {
-      const incidentData = await getIncidentsData(page);
-      console.log(incidentData);
-      setIncident(incidentData);
-    };
-    handleTableResponse();
-  }, [page]);
+  //   useEffect(() => {
+  //     const handleTableResponse = async () => {
+  //       const incidentData = await getIncidentsData(page);
 
-  if (isLoading) {
-    return (
-      <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />
-    );
-  }
+  //       console.log("Incident Data", incidentData);
+  //       setIncident(incidentData);
+  //       //   setTotalPages(incidentData.count);
+  //     };
+  //     handleTableResponse();
+  //   }, [page]);
+
+  //   if (isLoading) {
+  //     return (
+  //       <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />
+  //     );
+  //   }
 
   console.log(page);
   console.log(incident);
 
-  //   console.log(incident[0].aiclassification);
+  console.log(incident);
 
   return (
     <section className="border-r border-border-strong h-screen">
-      <IncidentFeedHeader page={page} handlePage={handlePage} />
-      {incident.map((incident) => (
+      <IncidentFeedHeader
+        handleCategory={handleCategory}
+        page={page}
+        handlePage={handlePage}
+        totalPages={totalPages}
+      />
+      {incidentCategoryData.map((incident) => (
         <IncidentFeed
+          key={incident.id}
           id={incident.INC_code}
           room={incident.room_number}
           floor={incident.room_number}
@@ -206,6 +240,7 @@ function IncidentFeedLayout() {
           oneLineSummary={
             incident?.aiclassification?.one_line_summary ?? "Hello"
           }
+          onClick={() => setSelectedIncident(incident)}
         />
       ))}
     </section>
