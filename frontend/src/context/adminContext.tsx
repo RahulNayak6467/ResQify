@@ -1,6 +1,20 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useStaff } from "./staffContext";
+import {
+  getActiveIncidentData,
+  getAIAccuracy,
+  getAILatency,
+  getIncidentType,
+  getResolutionRate,
+  getStaffOnline,
+} from "../lib/queris";
 
-const AdminContext = createContext(null);
+interface valueProps {
+  overview: number[];
+  incidentGraph: any;
+}
+
+const AdminContext = createContext<valueProps | null>(null);
 
 export const useAdmin = () => {
   const ctx = useContext(AdminContext);
@@ -11,5 +25,36 @@ export const useAdmin = () => {
 };
 
 const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
-  return <AdminContext.Provider>{children}</AdminContext.Provider>;
+  const [overview, setOverview] = useState<number[]>([]);
+  const [incidentGraph, setIncidentGraph] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const AIAccuracy = await getAIAccuracy();
+      const AILatency = await getAILatency();
+      const ActiveIncidents = await getActiveIncidentData();
+      const StaffOnline = await getStaffOnline();
+      const PercentageResolved = await getResolutionRate();
+      const IncidentData = await getIncidentType();
+      setOverview([
+        AIAccuracy,
+        AILatency,
+        ActiveIncidents,
+        StaffOnline,
+        PercentageResolved,
+      ]);
+      setIncidentGraph(IncidentData);
+    };
+    fetchData();
+  }, []);
+
+  const value: valueProps = {
+    overview,
+    incidentGraph,
+  };
+  //   consiewCard, setOverviewCard] = useStaff([]);
+  return (
+    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
+  );
 };
+
+export default AdminContextProvider;

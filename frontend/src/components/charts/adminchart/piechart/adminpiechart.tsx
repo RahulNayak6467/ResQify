@@ -15,7 +15,7 @@ function AdminPieChart({ data }: { data: incidentTypeBreakdownProps[] }) {
           Incident type breakdown
         </h3>
         <p className="text-text-faint text-xs font-sans tracking-wider">
-          Today 147 total
+          Total Incidents 11
         </p>
       </div>
       <div className="flex gap-4 items-center ">
@@ -23,7 +23,7 @@ function AdminPieChart({ data }: { data: incidentTypeBreakdownProps[] }) {
           <PieChartData data={data} />
         </div>
         <div className="w-full">
-          <IncidentTypeBreakdown data={data} />
+          <IncidentTypeBreakdown />
         </div>
       </div>
     </div>

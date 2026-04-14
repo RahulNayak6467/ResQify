@@ -14,6 +14,7 @@ import ProtectedRoutesProvider from "./context/ProtectedRoutes";
 import AuthProvider from "./context/AuthProvider";
 import RootRedirect from "./routesredirect";
 import StaffContextProvider from "./context/staffContext";
+import AdminContextProvider from "./context/adminContext";
 
 export const routes = createBrowserRouter([
   {
@@ -57,7 +58,9 @@ export const routes = createBrowserRouter([
         path: "admin",
         element: (
           <ProtectedRoutesProvider>
-            <AdminPage />
+            <AdminContextProvider>
+              <AdminPage />
+            </AdminContextProvider>
           </ProtectedRoutesProvider>
         ),
         children: [

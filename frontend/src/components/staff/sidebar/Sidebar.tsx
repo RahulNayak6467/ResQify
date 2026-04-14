@@ -48,7 +48,9 @@ function Sidebar({
   //     );
   //   }
   console.log(incidentTableData);
-  const all = incidentTableData?.length;
+  const resolved = incidentTableData?.filter(
+    (inc) => inc.incident_severity.toUpperCase() === "RESOLVED",
+  ).length;
   const critical = incidentTableData?.filter(
     (inc) => inc.incident_severity.toUpperCase() === "CRITICAL",
   ).length;
@@ -66,22 +68,22 @@ function Sidebar({
           Incident Queue
         </h3>
         <div className="flex flex-col gap-2 text-xs mt-2">
-          <div className="flex justify-between items-center bg-surface-raised rounded-md transition-all cursor-pointer px-4 py-1 border-l-2 border-l-accent">
+          <div className="flex justify-between items-center bg-surface-raised rounded-md transition-all cursor-pointer px-4 py-1 border-l-2 border-l-resolved">
             <div className="flex items-center gap-3">
-              <p className="h-1.5 w-1.5 bg-white rounded-full"></p>
-              <p className="text-text-secondary font-mono text-xs font-extralight  py-1 rounded-md">
-                All
+              <p className="h-1.5 w-1.5 bg-resolved rounded-full"></p>
+              <p className="text-resolved font-mono text-xs font-extralight  py-1 rounded-md">
+                RESOLVED
               </p>
             </div>
-            <p className="text-critical bg-critical-muted px-2 rounded-md">
-              {all}
+            <p className="text-resolved bg-resolved-muted px-2 rounded-md">
+              {resolved}
             </p>
           </div>
           <div className="flex justify-between items-center hover:bg-surface-raised rounded-md transition-all cursor-pointer px-4 py-1 border-l-2 border-l-critical ">
             <div className="flex items-center gap-3">
               <p className="h-1.5 w-1.5 bg-critical rounded-full"></p>
               <p className="text-text-secondary font-mono text-xs   py-1 rounded-md">
-                Critical
+                CRITICAL
               </p>
             </div>
             <p className="text-critical bg-critical-muted px-2 rounded-md">
@@ -99,7 +101,7 @@ function Sidebar({
               {moderate}
             </p>
           </div>
-          <div className="flex justify-between items-center hover:bg-surface-raised rounded-md transition-all cursor-pointer px-4 py-1 border-l-2 border-l-resolved">
+          <div className="flex justify-between items-center hover:bg-surface-raised rounded-md transition-all cursor-pointer px-4 py-1 border-l-2 border-l-accent">
             <div className="flex items-center gap-3">
               <p className="h-1.5 w-1.5 bg-accent rounded-full"></p>
               <p className="text-text-secondary font-mono text-xs   py-1 rounded-md">

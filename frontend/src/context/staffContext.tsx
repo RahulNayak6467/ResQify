@@ -11,7 +11,9 @@ interface valueProps {
   setTotalPages: React.Dispatch<React.SetStateAction<number>>;
   // handleIncidents,
   // handleTotalPages,
+  handleLoading: (bool: boolean) => void;
   handlePage: (page: number) => void;
+
   // handleSelectedIncident,
   setSelectedIncident: any;
   isLoading: boolean;
@@ -44,6 +46,9 @@ const StaffContextProvider = ({ children }: { children: React.ReactNode }) => {
   //     setTotalPages(page);
   //   };
 
+  const handleLoading = (bool: boolean) => {
+    setIsLoading(bool);
+  };
   const handlePage = (page: number) => {
     setPage(page);
   };
@@ -96,6 +101,7 @@ const StaffContextProvider = ({ children }: { children: React.ReactNode }) => {
     // handleTotalPages,
     handlePage,
     isLoading,
+    handleLoading,
     // handleSelectedIncident,
     setSelectedIncident,
   };

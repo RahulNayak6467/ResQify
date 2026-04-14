@@ -24,7 +24,7 @@
 // export default StatCard;
 
 interface StatCardProps {
-  num: string;
+  num: number | string;
   label: string;
   delta?: string;
   color?: string;

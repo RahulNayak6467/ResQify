@@ -1,14 +1,8 @@
+import { useAdmin } from "../../context/adminContext";
 import HeatMap from "../admin/heatmap";
 import AIConfidenceCard from "./adminchart/AIconfidencecard";
 import AdminAreaChart from "./adminchart/areachart/adminareachart";
 import AdminPieChart from "./adminchart/piechart/adminpiechart";
-
-const incidentTypeBreakdown = [
-  { type: "Medical", value: 38, fill: "#4a9eff" },
-  { type: "Fire / Smoke", value: 22, fill: "#ffaa00" },
-  { type: "Security", value: 18, fill: "#ff3b3b" },
-  { type: "Maintenance", value: 22, fill: "#00d97e" },
-];
 
 const resolutionTime = [
   { day: "Mon", minutes: 18 },
@@ -21,6 +15,43 @@ const resolutionTime = [
 ];
 
 function ChartLayout() {
+  const { incidentGraph } = useAdmin();
+  console.log(incidentGraph);
+  const Medical = incidentGraph.filter(
+    (inc) => inc.emergency_team === "Medical",
+  ).length;
+  const Security = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Security",
+  ).length;
+  const Fire = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Fire",
+  ).length;
+  const Maintenance = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Maintenance",
+  ).length;
+
+  const incidentTypeBreakdown = [
+    {
+      type: "Medical",
+      value: Medical,
+      fill: "#4a9eff",
+    },
+    {
+      type: "Fire / Smoke",
+      value: Fire,
+      fill: "#ffaa00",
+    },
+    {
+      type: "Security",
+      value: Security,
+      fill: "#ff3b3b",
+    },
+    {
+      type: "Maintenance",
+      value: Maintenance,
+      fill: "#00d97e",
+    },
+  ];
   return (
     <div>
       {/* <AdminAreaChart data={resolutionTime} />

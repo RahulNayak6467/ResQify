@@ -1,4 +1,5 @@
 import { PieChart, Pie, Label } from "recharts";
+import { useAdmin } from "../../../../context/adminContext";
 
 interface incidentTypeBreakdownProps {
   type: string;
@@ -7,6 +8,7 @@ interface incidentTypeBreakdownProps {
 }
 
 function PieChartData({ data }: { data: incidentTypeBreakdownProps[] }) {
+  const { incidentGraph } = useAdmin();
   return (
     <div
       className="w-fit p-4"
@@ -39,7 +41,7 @@ function PieChartData({ data }: { data: incidentTypeBreakdownProps[] }) {
           type="monotone"
         />
         <Label position="center" fill="#666">
-          Total: 147
+          {`Total: ${incidentGraph.length}`}
         </Label>
       </PieChart>
     </div>

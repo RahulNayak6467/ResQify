@@ -1,36 +1,67 @@
+import { useEffect } from "react";
 import ChartLayout from "../charts/chartlayout";
 import StatCard from "../StatCard";
+import { useAdmin } from "../../context/adminContext";
+// import {
+//   getActiveIncidentData,
+//   getAIAccuracy,
+//   getAILatency,
+//   getStaffOnline,
+// } from "../../lib/queris";
 
 function AdminOverviewPage() {
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       const AIAccuracy = await getAIAccuracy();
+  //       const AILatency = await getAILatency();
+  //       const ActiveIncidents = await getActiveIncidentData();
+  //       const StaffOnline = await getStaffOnline();
+  //       console.log(AIAccuracy);
+  //       console.log(AILatency);
+  //       console.log(ActiveIncidents);
+  //       console.log(StaffOnline);
+  //     };
+  //     fetchData();
+  //   }, []);
+  const { overview } = useAdmin();
+  const [
+    AIAccuracy,
+    AILatency,
+    ActiveIncidents,
+    StaffOnline,
+    PercentageResolved,
+  ] = overview;
+  console.log(overview);
   return (
     <div className="mx-auto max-w-7xl mt-12 flex flex-col gap-3">
       <div className="grid grid-cols-5 gap-3">
         <StatCard
-          num="3"
+          //   num={AIAccuracy}
+          num={ActiveIncidents}
           label="Active Incidents"
           delta="↑ 2 from last hour"
           color="#ff3b3b"
         />
         <StatCard
-          num="98.4%"
+          num={`${AIAccuracy}%`}
           label="AI Accuracy"
           delta="147 classifications"
           color="#ffaa00"
         />
         <StatCard
-          num="1.2s"
+          num={`${AILatency}s`}
           label="Avg AI Latency"
           delta="↓ 0.3s faster"
           color="#00d97e"
         />
         <StatCard
-          num="94%"
+          num={`${PercentageResolved}%`}
           label="Resolution Rate"
           delta="Within 15 minutes"
           color="#4a9eff"
         />
         <StatCard
-          num="8"
+          num={StaffOnline}
           label="Staff Online"
           delta="2 deployed · 6 standby"
           color="#a855f7"

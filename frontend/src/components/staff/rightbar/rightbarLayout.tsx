@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useStaff } from "../../../context/staffContext";
 import { supabase } from "../../../lib/supabaseclient";
 import Analysis from "./aianalysis";
@@ -5,6 +6,7 @@ import IncidentDetail from "./incidentdetail";
 import IncidentTimeline from "./timelinevent";
 
 function RightBarLayout() {
+  const [isClicked, setIsClicked] = useState(false);
   const toTimestamptz = (date = new Date()) => {
     return date.toISOString();
   };
@@ -22,19 +24,20 @@ function RightBarLayout() {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(data);
+    console.log("ResolvedData: ", data);
   };
   const updateApproved = async (id: string) => {
     const { data, error } = await supabase
       .from("incidentevents")
       .update({ approved_time: toTimestamptz() })
-      .eq("incident_id", id);
+      .eq("incident_id", id)
+      .select();
 
     if (error) {
       throw new Error(error.message);
     }
 
-    console.log(data);
+    console.log("ApprovedData: ", data);
   };
   //   if (isLoading) {
   //     return (
@@ -69,11 +72,18 @@ function RightBarLayout() {
             : "Mark Resolved"}
         </button>
         <button
-          onClick={() => updateApproved(selectedIncident.id)}
+          onClick={() => {
+            setIsClicked(() => true);
+            updateApproved(selectedIncident?.id);
+          }}
           type="button"
+          disabled={isClicked}
+          style={{
+            opacity: isClicked ? 0.2 : 1,
+          }}
           className="uppercase text-accent text-[12px] py-2 w-[95%] mx-auto bg-accent-muted border border-accent-border rounded-md hover:brightness-125 transition-all cursor-pointer"
         >
-          Approved
+          {isClicked ? "Approved" : "Approve"}
         </button>
       </div>
     </div>

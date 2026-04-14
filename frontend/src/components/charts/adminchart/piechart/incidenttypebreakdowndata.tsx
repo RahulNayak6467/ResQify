@@ -1,43 +1,53 @@
+import { useAdmin } from "../../../../context/adminContext";
+import IncidentTypeBreakdownValue from "../incidenttypebreakdown";
+
 interface incidentTypeBreakdownProps {
   type: string;
   value: number;
   fill: string;
 }
 
-const IncidentTypeBreakdown = ({
-  data,
-}: {
-  data: incidentTypeBreakdownProps[];
-}) => (
-  <div className="flex flex-col gap-3">
-    {data.map(({ type, value, fill }) => (
-      <div key={type}>
-        {/* label row */}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-3 h-3 rounded-sm shrink-0"
-              style={{ background: fill }}
-            />
-            <span className="font-mono text-sm text-text-secondary">
-              {type}
-            </span>
-          </div>
-          <span className="font-mono text-sm font-semibold" style={{ fill }}>
-            {value}%
-          </span>
-        </div>
+const IncidentTypeBreakdown = () => {
+  const { incidentGraph } = useAdmin();
+  const Medical = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Medical",
+  ).length;
+  const Security = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Security",
+  ).length;
+  const Fire = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Fire",
+  ).length;
+  const Maintenance = incidentGraph.filter(
+    (inc: any) => inc.emergency_team === "Maintenance",
+  ).length;
 
-        {/* bar */}
-        <div className="h-1.5 bg-surface-raised rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full"
-            style={{ width: `${value}%`, background: fill }}
-          />
-        </div>
-      </div>
-    ))}
-  </div>
-);
+  const total = Medical + Security + Fire + Maintenance;
+  console.log(incidentGraph);
+  return (
+    <div className="flex flex-col gap-3">
+      <IncidentTypeBreakdownValue
+        type={"Medical"}
+        value={Math.round((Medical * 100) / total)}
+        fill={"#4a9eff"}
+      />
+      <IncidentTypeBreakdownValue
+        type={"Fire / Smoke"}
+        value={Math.round((Fire * 100) / total)}
+        fill={"#ffaa00"}
+      />
+      <IncidentTypeBreakdownValue
+        type={"Security"}
+        value={Math.round((Security * 100) / total)}
+        fill={"#ff3b3b"}
+      />
+      <IncidentTypeBreakdownValue
+        type={"Maintenance"}
+        value={Math.round((Maintenance * 100) / total)}
+        fill={"#00d97e"}
+      />
+    </div>
+  );
+};
 
 export default IncidentTypeBreakdown;
