@@ -3,15 +3,19 @@ import { useStaff } from "./staffContext";
 import {
   getActiveIncidentData,
   getAIAccuracy,
+  getAIData,
   getAILatency,
   getIncidentType,
   getResolutionRate,
+  getResolvedTime,
   getStaffOnline,
 } from "../lib/queris";
 
 interface valueProps {
   overview: number[];
   incidentGraph: any;
+  resolvedTime: any;
+  confidenceData: any;
 }
 
 const AdminContext = createContext<valueProps | null>(null);
@@ -27,6 +31,8 @@ export const useAdmin = () => {
 const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [overview, setOverview] = useState<number[]>([]);
   const [incidentGraph, setIncidentGraph] = useState([]);
+  const [resolvedTime, setResolvedTime] = useState([]);
+  const [confidenceData, setConfidenceData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const AIAccuracy = await getAIAccuracy();
@@ -35,6 +41,8 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
       const StaffOnline = await getStaffOnline();
       const PercentageResolved = await getResolutionRate();
       const IncidentData = await getIncidentType();
+      const ResolvedData = await getResolvedTime();
+      const ConfidenceData = await getAIData();
       setOverview([
         AIAccuracy,
         AILatency,
@@ -43,6 +51,8 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
         PercentageResolved,
       ]);
       setIncidentGraph(IncidentData);
+      setResolvedTime(ResolvedData);
+      setConfidenceData(ConfidenceData);
     };
     fetchData();
   }, []);
@@ -50,6 +60,8 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
   const value: valueProps = {
     overview,
     incidentGraph,
+    resolvedTime,
+    confidenceData,
   };
   //   consiewCard, setOverviewCard] = useStaff([]);
   return (

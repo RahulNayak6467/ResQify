@@ -106,3 +106,25 @@ export const getIncidentType = async () => {
   }
   return data || [];
 };
+
+export const getResolvedTime = async () => {
+  const { data, error } = await supabase
+    .from("incidents")
+    .select("created_at, resolved_at");
+  if (error) {
+    throw new Error(error.message);
+  }
+  const resolvedData = data.filter((inc) => inc.resolved_at !== null);
+  console.log(resolvedData);
+  return resolvedData ?? [];
+};
+
+export const getAIData = async () => {
+  const { data, error } = await supabase
+    .from("aiclassification")
+    .select("emergency_team,ai_confidence");
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

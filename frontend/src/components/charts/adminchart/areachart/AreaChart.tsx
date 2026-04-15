@@ -8,18 +8,20 @@ import {
 } from "recharts";
 
 interface areaChartProps {
-  day: string;
-  minutes: number;
+  incident: string;
+  resolutionTime: number;
 }
 
 function AreaChartData({ data }: { data: areaChartProps[] }) {
+  console.log(data);
   return (
     <AreaChart
       style={{
         width: "100%",
 
-        maxHeight: "14vh",
-        aspectRatio: 1.618,
+        maxHeight: "16vh",
+        // aspectRatio: 1.618,
+        aspectRatio: 1.7,
       }}
       responsive
       data={data}
@@ -46,16 +48,20 @@ function AreaChartData({ data }: { data: areaChartProps[] }) {
       {/* <CartesianGrid /> */}
       {/* <XAxis dataKey="day" /> */}
       <XAxis
-        dataKey="day"
+        dataKey="incident"
         tick={{ fontFamily: "IBM Plex Mono", fontSize: 11, fill: "#5a6475" }}
         axisLine={false}
         tickLine={false}
       />
-      <YAxis width="auto" niceTicks="snap125" />
+      <YAxis
+        tick={{ fontFamily: "IBM Plex Mono", fontSize: 11, fill: "#5a6475" }}
+        width="auto"
+        niceTicks="snap125"
+      />
       <Tooltip />
       <Area
         type="monotone"
-        dataKey="minutes"
+        dataKey="resolutionTime"
         stroke="#00d97e"
         strokeWidth={2}
         fill="#00d97e"
