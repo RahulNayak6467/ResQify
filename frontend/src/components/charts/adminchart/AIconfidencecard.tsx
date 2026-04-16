@@ -92,7 +92,11 @@ const AIConfidenceCard = () => {
         Math.round(MedicalConfidenceAvg / MedicalConfidence.length),
       ),
     },
-    { type: "Fire", confidence: 0, color: getColor(0) },
+    {
+      type: "Fire",
+      confidence: Math.round(FireConfidenceAvg / FireConfidence.length),
+      color: getColor(Math.round(FireConfidenceAvg / FireConfidence.length)),
+    },
     {
       type: "Security",
       confidence: Math.round(SecurityConfidenceAvg / SecurityConfidence.length),

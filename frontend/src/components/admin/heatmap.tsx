@@ -48,7 +48,7 @@ const incidentHeatmap = [
 
 function HeatMap() {
   const { heatmap } = useAdmin();
-  console.log(heatmap);
+  console.log("Heatmap: ", heatmap);
   return (
     <div className="bg-surface  border-2 border-border-strong rounded-lg px-4  py-5 mt-4 w-full">
       <div>

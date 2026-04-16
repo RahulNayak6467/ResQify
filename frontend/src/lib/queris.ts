@@ -134,43 +134,51 @@ export const getIncidents = async () => {
   if (error) {
     throw new Error(error.message);
   }
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const days = [1, 2, 3, 4, 5, 6, 7];
   const arr = days.map((day, index) => {
     return {
-      days: index + 1,
+      days: days[index],
       hours: new Array(24).fill(0),
     };
   });
-  //   const heatmap = arr.forEach((day) => {
-  //     day.hours[2]++;
+  console.log(arr);
+
+  //   const date = data.map((day) => new Date(day.created_at).getDay());
+  //   const hours = data.map((hour) => new Date(hour.created_at).getHours());
+  const object = data.map((day) => {
+    return {
+      day: new Date(day.created_at).getDay(),
+      hour: new Date(day.created_at).getHours(),
+    };
+  });
+
+  console.log(object);
+
+  console.log(arr);
+
+  //   arr.forEach((day) => {
+  //     // if (Number(day.days) === 2) {
+  //     //   for (let i = 0; i < object.length; i++) {
+  //     //     day.hours[object[i].hour]++;
+  //     //   }
+  //     // }
+  //     for (let i = 0; i < object.length; i++) {
+  //       if (Number(day.days) === 2) {
+  //         day.hours[object[i].hour]++;
+  //       }
+  //     }
   //   });
 
-  const date = new Date().getDay();
-  const hours = data.map((hour) => new Date(hour.created_at).getHours());
-  //   const heatmap = console.log(date);  // arr.forEach((data) => {
-  //   if (data.days === ) {
-  //     console.log(data);
-  //   }
-  // });
-  //   const heatmap = date.forEach((date) => {
-  //     arr.forEach((day) => {
-  //       day.hours[date]++;
-  //     });
-  //   });
-  //   console.log(heatmap);
-  //   console.log(arr);
-  //   console.log(hours);
-  //   console.log(date);
-  arr.forEach((data) => {
-    console.log(data.days);
-    if (data.days === date) {
-      console.log(hours);
-      for (let i = 0; i < hours.length; i++) {
-        data.hours[hours[i]] += 1;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < object.length; j++) {
+      if (Number(arr[i].days === object[j].day)) {
+        arr[i].hours[object[j].hour]++;
       }
     }
-  });
+  }
+
   console.log(arr);
+
   return arr;
 };
 

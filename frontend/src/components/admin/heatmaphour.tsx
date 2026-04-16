@@ -1,23 +1,34 @@
 interface HeatMapRowProps {
-  day: string;
+  days: number;
   hours: number[];
 }
 
 const assignColor = (hour: number) => {
-  switch (hour) {
-    case 0:
-      return "#161c2a";
-    case 1:
-      return "#FF3B3B30";
-    case 2:
-      return "#FF3B3B50";
-    case 3:
-      return "#ff3b3b70";
-    case 4:
-      return "#ff3b3b";
+  //   switch (hour) {
+  //     case 0:
+  //       return "#161c2a";
+  //     case 1:
+  //       return "#FF3B3B30";
+  //     case 2:
+  //       return "#FF3B3B50";
+  //     case 3:
+  //       return "#ff3b3b70";
+  //     case 4:
+  //       return "#ff3b3b";
 
-    default:
-      break;
+  //     default:
+  //       break;
+  //   }
+  if (hour === 0) {
+    return "#161c2a";
+  } else if (hour <= 2) {
+    return "#FF3B3B30";
+  } else if (hour <= 4) {
+    return "#FF3B3B50";
+  } else if (hour <= 6) {
+    return "#ff3b3b70";
+  } else {
+    return "#ff3b3b";
   }
 };
 
@@ -44,11 +55,12 @@ const assignDay = (hour: number) => {
 };
 
 function HeatMapHour({ data }: { data: HeatMapRowProps }) {
+  console.log("Data:", data);
   return (
     <div className="grid grid-cols-[20px_1fr] place-items-center">
       <p className="text-text-secondary brightness-110 text-[11px] font-sans font-normal ">
         {/* {assignDay(Number(data?.day))} */}
-        Mon
+        {assignDay(data.days)}
       </p>
       <div>
         <div className="flex gap-0.5">
