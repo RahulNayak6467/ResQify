@@ -14,6 +14,8 @@ const assignColor = (status: string) => {
       return { bgColor: "#ffaa0040", border: "#ffaa0080" };
     case "critical":
       return { bgColor: "#ff3b3a40", border: "#ff3b3b80" };
+    case "low":
+      return { bgColor: "#4a9eff40", border: "#4a9eff80" };
     default:
       break;
   }

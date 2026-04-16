@@ -21,11 +21,34 @@ const assignColor = (hour: number) => {
   }
 };
 
+const assignDay = (hour: number) => {
+  switch (hour) {
+    case 1:
+      return "Mon";
+    case 2:
+      return "Tue";
+    case 3:
+      return "Wed";
+    case 4:
+      return "Thu";
+    case 5:
+      return "Fri";
+    case 6:
+      return "Sat";
+    case 7:
+      return "Sun";
+
+    default:
+      break;
+  }
+};
+
 function HeatMapHour({ data }: { data: HeatMapRowProps }) {
   return (
     <div className="grid grid-cols-[20px_1fr] place-items-center">
       <p className="text-text-secondary brightness-110 text-[11px] font-sans font-normal ">
-        {data?.day}
+        {/* {assignDay(Number(data?.day))} */}
+        Mon
       </p>
       <div>
         <div className="flex gap-0.5">

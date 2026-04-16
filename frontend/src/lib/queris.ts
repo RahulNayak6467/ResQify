@@ -128,3 +128,84 @@ export const getAIData = async () => {
   }
   return data;
 };
+
+export const getIncidents = async () => {
+  const { data, error } = await supabase.from("incidents").select("created_at");
+  if (error) {
+    throw new Error(error.message);
+  }
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const arr = days.map((day, index) => {
+    return {
+      days: index + 1,
+      hours: new Array(24).fill(0),
+    };
+  });
+  //   const heatmap = arr.forEach((day) => {
+  //     day.hours[2]++;
+  //   });
+
+  const date = new Date().getDay();
+  const hours = data.map((hour) => new Date(hour.created_at).getHours());
+  //   const heatmap = console.log(date);  // arr.forEach((data) => {
+  //   if (data.days === ) {
+  //     console.log(data);
+  //   }
+  // });
+  //   const heatmap = date.forEach((date) => {
+  //     arr.forEach((day) => {
+  //       day.hours[date]++;
+  //     });
+  //   });
+  //   console.log(heatmap);
+  //   console.log(arr);
+  //   console.log(hours);
+  //   console.log(date);
+  arr.forEach((data) => {
+    console.log(data.days);
+    if (data.days === date) {
+      console.log(hours);
+      for (let i = 0; i < hours.length; i++) {
+        data.hours[hours[i]] += 1;
+      }
+    }
+  });
+  console.log(arr);
+  return arr;
+};
+
+export const getStaff = async () => {
+  const { data, error } = await supabase.from("profiles").select("*");
+  if (error) {
+    throw new Error(error.message);
+  }
+  const staffData = data.filter(
+    (profile) => profile.role === "staff" || profile.role === "admin",
+  );
+  return staffData ?? [];
+};
+
+export const getAiSuggestions = async () => {
+  const { data, error } = await supabase.from("aiclassification").select("*");
+  if (error) {
+    throw new Error(error.message);
+  }
+  //   console.log(data);
+  // const requiredData = data.filter((data) => {
+  //     return {
+
+  //     }
+  // })
+  console.log(data);
+  return data;
+};
+
+export const getIncidentFloorMap = async () => {
+  const { data, error } = await supabase
+    .from("incidents")
+    .select("room_number, incident_severity");
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useAdmin } from "../../context/adminContext";
 import { getResolutionTime } from "../../lib/utils";
 import HeatMap from "../admin/heatmap";
 import AIConfidenceCard from "./adminchart/AIconfidencecard";
 import AdminAreaChart from "./adminchart/areachart/adminareachart";
 import AdminPieChart from "./adminchart/piechart/adminpiechart";
+import { getIncidents } from "../../lib/queris";
 
 // const resolutionTime = [
 //   { day: "Mon", minutes: 18 },
@@ -36,17 +38,21 @@ function ChartLayout() {
 
   console.log(incidentGraph);
   const Medical = incidentGraph.filter(
-    (inc) => inc.emergency_team === "Medical",
+    (inc: { emergency_team: string }) => inc.emergency_team === "Medical",
   ).length;
   const Security = incidentGraph.filter(
-    (inc: any) => inc.emergency_team === "Security",
+    (inc: { emergency_team: string }) => inc.emergency_team === "Security",
   ).length;
   const Fire = incidentGraph.filter(
-    (inc: any) => inc.emergency_team === "Fire",
+    (inc: { emergency_team: string }) => inc.emergency_team === "Fire",
   ).length;
   const Maintenance = incidentGraph.filter(
-    (inc: any) => inc.emergency_team === "Maintenance",
+    (inc: { emergency_team: string }) => inc.emergency_team === "Maintenance",
   ).length;
+
+  useEffect(() => {
+    getIncidents();
+  }, []);
 
   const incidentTypeBreakdown = [
     {

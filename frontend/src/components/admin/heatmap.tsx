@@ -1,3 +1,4 @@
+import { useAdmin } from "../../context/adminContext";
 import HeatMapHour from "./heatmaphour";
 
 const incidentHeatmap = [
@@ -46,6 +47,8 @@ const incidentHeatmap = [
 ];
 
 function HeatMap() {
+  const { heatmap } = useAdmin();
+  console.log(heatmap);
   return (
     <div className="bg-surface  border-2 border-border-strong rounded-lg px-4  py-5 mt-4 w-full">
       <div>
@@ -54,7 +57,7 @@ function HeatMap() {
         </h3>
       </div>
       <div className="grid grid-cols-1 gap-y-0.5 mt-4">
-        {incidentHeatmap.map((heatmap) => (
+        {heatmap.map((heatmap) => (
           <HeatMapHour
             key={`day-${heatmap.day}-${heatmap.hours.length}`}
             data={heatmap}

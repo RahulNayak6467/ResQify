@@ -5,7 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatTime = (timestamp: string, responseTime?: number) => {
+export const formatTime = (
+  timestamp: string,
+  responseTime?: number,
+  bool?: boolean,
+) => {
   const date = new Date(
     new Date(timestamp).getTime() + (responseTime || 0) * 1000,
   );
@@ -13,7 +17,7 @@ export const formatTime = (timestamp: string, responseTime?: number) => {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: true,
+    hour12: bool ?? true,
   });
 };
 

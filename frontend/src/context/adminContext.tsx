@@ -5,6 +5,7 @@ import {
   getAIAccuracy,
   getAIData,
   getAILatency,
+  getIncidents,
   getIncidentType,
   getResolutionRate,
   getResolvedTime,
@@ -16,6 +17,8 @@ interface valueProps {
   incidentGraph: any;
   resolvedTime: any;
   confidenceData: any;
+  heatmap: any;
+  isloading: boolean;
 }
 
 const AdminContext = createContext<valueProps | null>(null);
@@ -33,8 +36,11 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [incidentGraph, setIncidentGraph] = useState([]);
   const [resolvedTime, setResolvedTime] = useState([]);
   const [confidenceData, setConfidenceData] = useState([]);
+  const [heatmap, setHeatMap] = useState([]);
+  const [isloading, setIsloading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      setIsloading(true);
       const AIAccuracy = await getAIAccuracy();
       const AILatency = await getAILatency();
       const ActiveIncidents = await getActiveIncidentData();
@@ -43,6 +49,8 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
       const IncidentData = await getIncidentType();
       const ResolvedData = await getResolvedTime();
       const ConfidenceData = await getAIData();
+      const HeatMap = await getIncidents();
+      setIsloading(false);
       setOverview([
         AIAccuracy,
         AILatency,
@@ -53,6 +61,7 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
       setIncidentGraph(IncidentData);
       setResolvedTime(ResolvedData);
       setConfidenceData(ConfidenceData);
+      setHeatMap(HeatMap);
     };
     fetchData();
   }, []);
@@ -62,6 +71,8 @@ const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
     incidentGraph,
     resolvedTime,
     confidenceData,
+    heatmap,
+    isloading,
   };
   //   consiewCard, setOverviewCard] = useStaff([]);
   return (

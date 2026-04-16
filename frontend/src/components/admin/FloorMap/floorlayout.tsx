@@ -1,50 +1,57 @@
+import { useEffect, useState } from "react";
 import FloorMapLegend from "./floormaplegend";
 import FloorMap from "./floorroom";
+import { formatTime } from "../../../lib/utils";
+import { getIncidentFloorMap } from "../../../lib/queris";
 
 // constants/floorMap.ts
 
 const floor3Rooms = [
-  { number: 301, status: "normal" },
-  { number: 302, status: "normal" },
-  { number: 303, status: "normal" },
-  { number: 304, status: "normal" },
-  { number: 305, status: "normal" },
-  { number: 306, status: "moderate" },
-  { number: 307, status: "normal" },
-  { number: 308, status: "normal" },
-  { number: 309, status: "normal" },
-  { number: 310, status: "normal" },
-  { number: 311, status: "normal" },
-  { number: 312, status: "critical" },
-  { number: 313, status: "normal" },
-  { number: 314, status: "normal" },
-  { number: 315, status: "normal" },
-  { number: 316, status: "normal" },
-  { number: 317, status: "normal" },
-  { number: 318, status: "resolved" },
-  { number: 319, status: "normal" },
-  { number: 320, status: "normal" },
-  { number: 321, status: "normal" },
-  { number: 322, status: "normal" },
-  { number: 323, status: "normal" },
-  { number: 324, status: "normal" },
-  { number: 325, status: "normal" },
-  { number: 326, status: "normal" },
-  { number: 327, status: "normal" },
-  { number: 328, status: "normal" },
-  { number: 329, status: "moderate" },
-  { number: 330, status: "normal" },
-  { number: 331, status: "normal" },
-  { number: 332, status: "normal" },
-  { number: 333, status: "normal" },
-  { number: 334, status: "normal" },
-  { number: 335, status: "normal" },
-  { number: 336, status: "normal" },
-  { number: 337, status: "normal" },
-  { number: 338, status: "normal" },
-  { number: 339, status: "normal" },
-  { number: 340, status: "critical" },
+  { number: 201, status: "normal" },
+  { number: 201, status: "normal" },
+  { number: 202, status: "normal" },
+  { number: 203, status: "normal" },
+  { number: 204, status: "normal" },
+  { number: 205, status: "normal" },
+  { number: 206, status: "normal" },
+  { number: 207, status: "normal" },
+  { number: 208, status: "normal" },
+  { number: 209, status: "normal" },
+  { number: 210, status: "normal" },
+  { number: 211, status: "normal" },
+  { number: 212, status: "normal" },
+  { number: 213, status: "normal" },
+  { number: 214, status: "normal" },
+  { number: 215, status: "normal" },
+  { number: 216, status: "normal" },
+  { number: 217, status: "normal" },
+  { number: 218, status: "normal" },
+  { number: 220, status: "normal" },
+  { number: 221, status: "normal" },
+  { number: 222, status: "normal" },
+  { number: 223, status: "normal" },
+  { number: 224, status: "normal" },
+  { number: 225, status: "normal" },
+  { number: 226, status: "normal" },
+  { number: 227, status: "normal" },
+  { number: 228, status: "normal" },
+  { number: 229, status: "normal" },
+  { number: 230, status: "normal" },
+  { number: 231, status: "normal" },
+  { number: 232, status: "normal" },
+  { number: 233, status: "normal" },
+  { number: 234, status: "normal" },
+  { number: 235, status: "normal" },
+  { number: 236, status: "normal" },
+  { number: 237, status: "normal" },
+  { number: 238, status: "normal" },
+  { number: 239, status: "normal" },
+  { number: 240, status: "normal" },
 ];
+
+// const arr = [
+//   1, 2, 3, 4, 5, 3, 3, 4, 5, 3, 2, 4, 3, 5, 6, 7, 4, 3, 4, 5, 6, 3, 4,
+// ];
 
 // const assignColor = (status: string) => {
 //   switch (status) {
@@ -59,16 +66,47 @@ const floor3Rooms = [
 //   }
 // };
 
+const ROOMS_PER_FLOOR = 40;
+
 function FloorLayout() {
+  const [selectedFloor, setSelectedFloor] = useState(1);
+  const rooms = Array.from({ length: ROOMS_PER_FLOOR }, (_, i) => ({
+    number: selectedFloor * 100 + i + 1,
+    status: "normal",
+  }));
+  console.log(rooms);
+  const [dataFloor, setDataFloor] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const getData = await getIncidentFloorMap();
+      console.log(getData);
+      setDataFloor(getData);
+    };
+    fetchData();
+  }, []);
+
+  for (let i = 0; i < rooms.length; i++) {
+    for (let j = 0; j < dataFloor.length; j++) {
+      if (rooms[i].number === dataFloor[j].room_number) {
+        rooms[i].status = dataFloor[j].incident_severity;
+      }
+    }
+  }
+  console.log(dataFloor);
+  console.log(rooms);
+
   return (
     <div className="bg-base border border-border brightness-125 mx-auto max-w-[1600px] mt-6 h-fit px-6 py-4 rounded-lg">
       <div className="flex justify-between items-center">
         <h3 className="text-sm text-text-secondary font-mono tracking-tight brightness-125 ">
-          Floor 5 Layout
+          Floor {selectedFloor} Layout
         </h3>
         <div className="flex gap-0.5 items-center">
           {Array.from({ length: 10 }).map((_, index) => (
-            <div className="text-text-secondary text-xs px-2 py-1 border border-border bg-base hover:bg-surface-raised cursor-pointer rounded-sm  hover:text-text-primary transition-all">
+            <div
+              onClick={() => setSelectedFloor(() => index)}
+              className="text-text-secondary text-xs px-2 py-1 border border-border bg-base hover:bg-surface-raised cursor-pointer rounded-sm  hover:text-text-primary transition-all"
+            >
               {index}
             </div>
           ))}
@@ -78,7 +116,7 @@ function FloorLayout() {
         {/* {floor3Rooms.map((floor)) => (
           <FloorMap data={floor} />
         ))} */}
-        {floor3Rooms.map((floor) => (
+        {rooms.map((floor) => (
           <FloorMap data={floor} />
         ))}
       </div>
