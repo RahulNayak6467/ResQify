@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useStaff } from "../../context/staffContext";
 // import { useAuthContext } from "../../context/AuthProvider";
 
 type Role = "guest" | "staff" | "admin";

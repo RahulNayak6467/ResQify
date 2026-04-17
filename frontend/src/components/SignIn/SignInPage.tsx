@@ -8,10 +8,10 @@ function Register() {
     //   <RegisterForm />
     // </section>
     <section className="flex items-center justify-center min-h-screen">
-      <section className="flex items-center justify-center  h-[720px] ">
+      <div className="flex items-center justify-center  h-[720px] ">
         <RegisterStrip />
         <RegisterForm />
-      </section>
+      </div>
     </section>
   );
 }

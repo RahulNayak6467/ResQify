@@ -1,4 +1,47 @@
+// import { useEffect, useState } from "react";
+// import { useStaff } from "../../context/staffContext";
+// import { supabase } from "../../lib/supabaseclient";
+// import { getAIData } from "../../lib/queris";
+// import { DatabaseIcon } from "lucide-react";
+// import { formatTime } from "../../lib/utils";
+
+// const getColor = (incident: string) => {
+//   if (incident === "critical") {
+//     return "bg-critical";
+//   } else if (incident === "moderate") {
+//     return "bg-moderate";
+//   } else if (incident === "low") {
+//     return "bg-accent";
+//   }
+// };
+
 function RecentActivity() {
+  //   const [recentIncidents, setRecentIncidents] = useState([]);
+  //   useEffect(() => {
+  //     const getRecentIncident = async () => {
+  //       const { data, error } = await supabase
+  //         .from("aiclassification")
+  //         .select("ai_confidence, crisp, created_at, incident_severity")
+  //         .range(0, 2);
+  //       if (error) {
+  //         throw new Error(error.message);
+  //       }
+  //       console.log(data);
+  //       const requiredData = data.map((data) => {
+  //         return {
+  //           dot: getColor(data.incident_severity),
+  //           text: `${data.crisp}`,
+  //           conf: data.ai_confidence,
+  //           time: formatTime(data.created_at, 0, false),
+  //         };
+  //       });
+  //       setRecentIncidents(requiredData);
+  //     };
+  //     getRecentIncident();
+  //   }, []);
+
+  //   console.log(recentIncidents);
+
   return (
     <div className="mb-8">
       <p className="font-mono text-[10px] text-text-faint uppercase tracking-widest mb-3">

@@ -6,14 +6,14 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const PAGE_SIZE = 7;
-
+  type teamCategoryProps = "Fire" | "Security" | "Maintenance" | "Medical";
   interface profilesTableProps {
     firstName: string;
     lastName: string;
     roomNumber: number;
     role: string;
-    staff_status?: string;
-    team_category?: string;
+    staff_status?: string | null;
+    team_category?: teamCategoryProps | null;
   }
 
   const signUp = async (
@@ -27,6 +27,7 @@ export const useAuth = () => {
     },
   ) => {
     setIsLoading(true);
+    console.log(metadata);
 
     const { data, error } = await supabase.auth.signUp({
       email,

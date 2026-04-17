@@ -6,7 +6,7 @@ import LoginInfo from "./LoginInfo";
 function LoginPage() {
   return (
     <section className="flex items-center justify-center min-h-screen">
-      <section className="flex items-center justify-center  h-[600px] ">
+      <section className="flex items-center justify-center  h-full ">
         <LoginInfo />
         <LoginForm />
       </section>

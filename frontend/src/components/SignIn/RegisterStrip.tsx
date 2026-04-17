@@ -50,12 +50,9 @@ const RegisterStrip = () => (
               flex items-center justify-center
               font-mono text-xs font-semibold
               border-[1.5px] transition-all
+                   "bg-critical-muted border-critical text-critical"
 
-              ${
-                n === 1
-                  ? "bg-critical-muted border-critical text-critical"
-                  : "bg-base border-border text-text-faint"
-              }
+
             `}
             >
               {n}
@@ -66,7 +63,7 @@ const RegisterStrip = () => (
               <p
                 className={`
                 font-mono text-sm font-semibold mb-1
-                ${n === 1 ? "text-critical" : "text-text-primary"}
+               "text-critical"
               `}
               >
                 {label}
