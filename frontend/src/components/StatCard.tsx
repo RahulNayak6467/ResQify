@@ -32,8 +32,8 @@ interface StatCardProps {
 
 const StatCard = ({ num, label, delta, color }: StatCardProps) => (
   <div
-    style={{ borderTopColor: color }}
-    className={`bg-surface  border-t  rounded-lg h-25 p-2 px-4  `}
+    // style={{ borderTopColor: color }}
+    className={`bg-base-raised shadow-2xl border border-border  border-t  rounded-lg h-25 p-2 px-4  `}
   >
     <div
       style={{ color: color }}

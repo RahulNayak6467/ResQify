@@ -86,7 +86,7 @@ function ChartLayout() {
       <div>
         <AdminAreaChart data={resolvedTimeArr} />
       </div>
-      <div className="grid grid-cols-[1fr_350px] gap-x-4 ">
+      <div className="grid grid-cols-[1fr_320px] gap-x-4 ">
         <div className="flex flex-col gap-4">
           <HeatMap />
           <AdminPieChart data={incidentTypeBreakdown} />

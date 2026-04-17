@@ -1,56 +1,11 @@
 import { useAdmin } from "../../context/adminContext";
 import HeatMapHour from "./heatmaphour";
 
-const incidentHeatmap = [
-  {
-    day: "Mon",
-    hours: [
-      1, 1, 0, 1, 1, 2, 2, 3, 3, 3, 2, 4, 3, 2, 3, 2, 4, 4, 4, 3, 3, 2, 2, 2,
-    ],
-  },
-  {
-    day: "Tue",
-    hours: [
-      1, 0, 1, 1, 1, 1, 2, 2, 0, 4, 3, 4, 4, 4, 1, 3, 3, 4, 4, 2, 4, 3, 2, 2,
-    ],
-  },
-  {
-    day: "Wed",
-    hours: [
-      1, 1, 1, 1, 1, 0, 1, 2, 2, 2, 4, 1, 2, 2, 0, 2, 2, 3, 4, 4, 2, 2, 2, 2,
-    ],
-  },
-  {
-    day: "Thu",
-    hours: [
-      1, 1, 0, 1, 0, 2, 2, 2, 2, 0, 4, 4, 3, 2, 4, 1, 3, 4, 0, 4, 2, 3, 2, 2,
-    ],
-  },
-  {
-    day: "Fri",
-    hours: [
-      1, 1, 1, 1, 1, 1, 2, 0, 2, 2, 0, 3, 4, 1, 2, 2, 3, 3, 2, 4, 3, 2, 2, 2,
-    ],
-  },
-  {
-    day: "Sat",
-    hours: [
-      1, 1, 0, 1, 1, 0, 1, 4, 1, 2, 2, 3, 2, 2, 3, 2, 2, 3, 4, 3, 3, 2, 2, 2,
-    ],
-  },
-  {
-    day: "Sun",
-    hours: [
-      1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 1,
-    ],
-  },
-];
-
 function HeatMap() {
   const { heatmap } = useAdmin();
   console.log("Heatmap: ", heatmap);
   return (
-    <div className="bg-surface  border-2 border-border-strong rounded-lg px-4  py-5 mt-4 w-full">
+    <div className="bg-base-raised  border border-border rounded-lg px-4  py-5 mt-4 w-full">
       <div>
         <h3 className="text-text-secondary text-sm font-sans tracking-wider font-medium">
           Incident heatmap — last 7 day

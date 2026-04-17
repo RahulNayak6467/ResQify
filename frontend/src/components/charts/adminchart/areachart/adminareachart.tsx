@@ -12,7 +12,7 @@ interface ChartProps {
 
 function AdminAreaChart({ data }: { data: ChartProps[] }) {
   return (
-    <div className="flex flex-col gap-4 p-4 border border-border-focus rounded-lg w-full bg-surface">
+    <div className="flex flex-col gap-4 p-4 border bg-base-raised border-border rounded-lg w-full ">
       <h3 className="uppercase text-text-secondary tracking-wider font-sans text-sm ">
         Avg resolution time last 10 incidents
       </h3>

@@ -1,6 +1,10 @@
 import { useEffect, useState, type FC } from "react";
 import { getAiSuggestions } from "../../lib/queris";
 import { formatTime } from "../../lib/utils";
+import AISidebar from "../admin/aisidebar";
+import AIStatsStrip from "../admin/aiDashboard";
+// import { Pagination } from "./pagination";
+import PaginationStaff from "../staff/incidentQueue/pagination";
 
 type LogType =
   | " MAINTENANCE"
@@ -83,6 +87,10 @@ const confidenceColor = (val: number) => {
 // ];
 
 const AIClassificationLog = () => {
+  const [page, setPage] = useState(0);
+  const handlePage = (id: number) => {
+    setPage(id);
+  };
   const [logEntries, setLogEntries] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -102,36 +110,53 @@ const AIClassificationLog = () => {
     fetchData();
   }, []);
   return (
-    <div className="bg-surface border border-border rounded-lg overflow-hidden max-w-7xl mx-auto mt-12">
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-border">
-        <span className="font-mono text-xs font-semibold text-text-secondary uppercase tracking-widest">
-          AI Classification Log — Today
-        </span>
-      </div>
+    <section className="flex flex-col gap-8  bg-base-raised/40 border border-border rounded-b-lg rounded-0 overflow-hidden max-w-7xl mx-auto  p-8 ">
+      <AIStatsStrip />
 
-      {logEntries.map(({ time, type, message, confidence }, i) => (
-        <div
-          key={i}
-          className={`flex items-center gap-6 px-5 py-3 font-mono text-xs ${i !== logEntries.length - 1 ? "border-b border-border" : ""}`}
-        >
-          <span className="text-text-faint flex-shrink-0 w-16">{time}</span>
-          <span
-            className={`font-semibold flex-shrink-0 w-16 ${logTypeColorMap[type.toUpperCase()]}`}
-          >
-            {" "}
-            {type}
-          </span>
-          <span className="text-text-secondary flex-1 line-clamp-1">
-            {message}
-          </span>
-          <span
-            className={`flex-shrink-0 font-semibold ${confidenceColor(confidence)}`}
-          >
-            {confidence}%
-          </span>
+      <div className="flex gap-8">
+        <div className="w-[70%]  bg-base-raised border-border border p-4 rounded-xl">
+          <div className="flex items-center  px-5 py-2 border-b border-border">
+            <span className="font-mono text-xs font-semibold text-text-secondary uppercase tracking-widest">
+              AI Classification Log — Today
+            </span>
+            <PaginationStaff
+              currentPage={10}
+              totalPages={10}
+              handlePage={handlePage}
+            />
+          </div>
+          {logEntries
+            .slice(0, 15)
+            .map(({ time, type, message, confidence }, i) => (
+              <div
+                key={i}
+                className={`flex  bg-base-raised items-center gap-6 px-5 py-3 font-mono text-xs ${i !== logEntries.length - 1 ? "border-b border-border" : ""}`}
+              >
+                <span className="text-text-faint flex-shrink-0 w-16">
+                  {time}
+                </span>
+                <span
+                  className={`font-semibold flex-shrink-0 w-16 ${logTypeColorMap[type.toUpperCase()]}`}
+                >
+                  {" "}
+                  {type}
+                </span>
+                <span className="text-text-secondary flex-1 line-clamp-1">
+                  {message}
+                </span>
+                <span
+                  className={`flex-shrink-0 font-semibold ${confidenceColor(confidence)}`}
+                >
+                  {confidence}%
+                </span>
+              </div>
+            ))}
         </div>
-      ))}
-    </div>
+        <div className="w-[30%]">
+          <AISidebar />
+        </div>
+      </div>
+    </section>
   );
 };
 

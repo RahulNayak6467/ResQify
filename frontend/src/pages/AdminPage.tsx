@@ -5,6 +5,7 @@ import Loader from "../components/ui/Loader";
 
 function AdminPage() {
   const { isloading } = useAdmin();
+
   if (isloading) {
     return (
       <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />

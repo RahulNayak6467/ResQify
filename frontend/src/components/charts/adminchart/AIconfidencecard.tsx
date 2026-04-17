@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import {
   AreaChart,
   Area,
@@ -132,7 +131,7 @@ const AIConfidenceCard = () => {
 
   console.log(confidenceData);
   return (
-    <div className="bg-surface  rounded-lg p-5 flex flex-col border border-border-focus h-full ">
+    <div className="bg-base-raised rounded-lg p-5 flex flex-col border border-border h-full ">
       {/* header */}
       <div className="flex items-start justify-between">
         <span className="font-mono text-xs font-semibold text-text-secondary uppercase tracking-widest leading-tight">

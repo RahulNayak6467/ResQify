@@ -43,7 +43,7 @@ function IncidentFeed({
   floor,
   severity,
   time,
-  title,
+  //   title,
   desc,
   type,
   aiTag,

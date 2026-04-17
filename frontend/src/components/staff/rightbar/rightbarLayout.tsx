@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStaff } from "../../../context/staffContext";
 import { supabase } from "../../../lib/supabaseclient";
 import Analysis from "./aianalysis";
@@ -93,7 +93,7 @@ function RightBarLayout() {
   //       <Loader fullscreen bg="mesh" variant="orbital" text="Fetching Data" />
   //     );
   //   }
-  if (!selectedIncident) return;
+  //   if (!selectedIncident) return;
   //   useEffect(() => {
   //       const fetchApprove = async () => {
   //           if (isClicked) {
@@ -105,6 +105,32 @@ function RightBarLayout() {
   //   });
   console.log(approveUpdate);
   console.log("USERID", user);
+
+  const selectedIncidentRef = useRef(selectedIncident);
+
+  useEffect(() => {
+    selectedIncidentRef.current = selectedIncident;
+  }, [selectedIncident]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("incidentevents")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "incidentevents",
+        },
+        () => {
+          checkApproved(selectedIncidentRef.current?.id);
+        },
+      )
+      .subscribe();
+
+    return () => supabase.removeChannel(channel);
+  }, [approveUpdate]);
+  if (!selectedIncident) return;
   return (
     <div className="flex flex-col bg-base-raised w-full border-l border-l-border h-screen">
       <IncidentDetail />
@@ -137,7 +163,7 @@ function RightBarLayout() {
           onClick={() => {
             setIsClicked(() => true);
             updateApproved(selectedIncident?.id);
-            updateStaffStatus(user.id);
+            updateStaffStatus(user.id ?? user);
           }}
           type="button"
           disabled={approveUpdate ? true : false}

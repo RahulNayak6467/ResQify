@@ -2,27 +2,27 @@ import { useEffect } from "react";
 import ChartLayout from "../charts/chartlayout";
 import StatCard from "../StatCard";
 import { useAdmin } from "../../context/adminContext";
-// import {
-//   getActiveIncidentData,
-//   getAIAccuracy,
-//   getAILatency,
-//   getStaffOnline,
-// } from "../../lib/queris";
+import {
+  getActiveIncidentData,
+  getAIAccuracy,
+  getAILatency,
+  getStaffOnline,
+} from "../../lib/queris";
 
 function AdminOverviewPage() {
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       const AIAccuracy = await getAIAccuracy();
-  //       const AILatency = await getAILatency();
-  //       const ActiveIncidents = await getActiveIncidentData();
-  //       const StaffOnline = await getStaffOnline();
-  //       console.log(AIAccuracy);
-  //       console.log(AILatency);
-  //       console.log(ActiveIncidents);
-  //       console.log(StaffOnline);
-  //     };
-  //     fetchData();
-  //   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const AIAccuracy = await getAIAccuracy();
+      const AILatency = await getAILatency();
+      const ActiveIncidents = await getActiveIncidentData();
+      const StaffOnline = await getStaffOnline();
+      console.log(AIAccuracy);
+      console.log(AILatency);
+      console.log(ActiveIncidents);
+      console.log(StaffOnline);
+    };
+    fetchData();
+  }, []);
   const { overview } = useAdmin();
   const [
     AIAccuracy,
@@ -33,7 +33,7 @@ function AdminOverviewPage() {
   ] = overview;
   console.log(overview);
   return (
-    <div className="mx-auto max-w-7xl mt-12 flex flex-col gap-3">
+    <div className="mx-auto max-w-7xl bg-base-raised/40  flex flex-col gap-3 p-8 border border-border ">
       <div className="grid grid-cols-5 gap-3">
         <StatCard
           //   num={AIAccuracy}
