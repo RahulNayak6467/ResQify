@@ -78,7 +78,7 @@ const StaffTable = () => {
           role: staff.role,
           team: staff.team_category ?? "ALL",
           status: staff.staff_status ?? "Online",
-          incidents: 1,
+          incidents: staff.incident_resolved,
         };
       });
       setStaffData(requiredData);
@@ -106,23 +106,21 @@ const StaffTable = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] bg-base-raised   px-5 py-2.5 border-b border-border">
-          {["NAME", "ROLE", "TEAM", "STATUS", "INCIDENTS TODAY", "ACTIONS"].map(
-            (h) => (
-              <span
-                key={h}
-                className="font-mono text-[10px] text-text-faint uppercase tracking-widest"
-              >
-                {h}
-              </span>
-            ),
-          )}
+        <div className="grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1.5fr] bg-base-raised   px-5 py-2.5 border-b border-border">
+          {["NAME", "ROLE", "TEAM", "STATUS", "INCIDENTS TODAY"].map((h) => (
+            <span
+              key={h}
+              className="font-mono text-[10px] text-text-faint uppercase tracking-widest"
+            >
+              {h}
+            </span>
+          ))}
         </div>
 
-        {staffData.map(({ name, role, team, status, incidentsToday }, i) => (
+        {staffData.map(({ name, role, team, status, incidents }, i) => (
           <div
             key={name}
-            className={`grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] bg-base-raised   items-center px-5 py-3 ${i !== staffMembers.length - 1 ? "border-b  border-border" : " "}`}
+            className={`grid grid-cols-[2fr_1fr_1.5fr_1.5fr_1.5fr] bg-base-raised   items-center px-5 py-3 ${i !== staffMembers.length - 1 ? "border-b  border-border" : " "}`}
           >
             <span className="font-mono text-sm font-semibold text-text-primary">
               {name.toUpperCase()}
@@ -138,24 +136,20 @@ const StaffTable = () => {
               {team}
             </span>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center  gap-2">
               <div
                 className={`w-1.5 h-1.5 rounded-full ${statusDotMap[status.toUpperCase()]}`}
               />
               <span
-                className={`font-mono text-xs font-semibold ${statusColorMap[status.toUpperCase()]}`}
+                className={`font-mono ml-5 text-xs font-semibold ${statusColorMap[status.toUpperCase()]}`}
               >
                 {status}
               </span>
             </div>
 
             <span className="font-mono text-sm text-text-primary">
-              {/* {"3" ?? "—"} */}3
+              {role === "staff" ? incidents : "___"}
             </span>
-
-            <button className="font-mono text-xs text-text-secondary border border-border px-3 py-1 rounded-md w-fit hover:border-border-strong hover:text-text-primary transition-all">
-              Edit
-            </button>
           </div>
         ))}
       </div>

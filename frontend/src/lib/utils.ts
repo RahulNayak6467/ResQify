@@ -60,3 +60,16 @@ export const getDayNumber = (num: number) => {
       break;
   }
 };
+
+export const getAverageTime = (time: number | string) => {
+  const minutes = Math.floor(Number(time) / 60);
+  const hours = Math.floor(Number(time) / (60 * 60));
+  const days = Math.floor(Number(time) / (60 * 60 * 24));
+  if (hours >= 1) return `${hours} hours`;
+  if (minutes >= 1) return `${minutes} minutes`;
+  if (days >= 1) return `${days} days`;
+
+  return `${time} s`;
+
+  //   const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+};

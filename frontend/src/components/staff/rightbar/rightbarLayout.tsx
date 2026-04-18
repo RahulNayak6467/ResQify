@@ -35,6 +35,20 @@ function RightBarLayout() {
     if (incidentError) {
       throw new Error(incidentError.message);
     }
+    if (error) {
+      throw new Error(error.message);
+    }
+    const secondsTaken = Math.floor(
+      (new Date().getTime() -
+        new Date(selectedIncident?.created_at).getTime()) /
+        1000,
+    );
+
+    await supabase.rpc("update_avg_response", {
+      staff_id: user_id,
+      response_seconds: secondsTaken,
+    });
+    await supabase.rpc("increment_resolved", { staff_id: user_id });
     console.log(updatedData);
     console.log("ResolvedData: ", data);
   };

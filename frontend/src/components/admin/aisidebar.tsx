@@ -12,7 +12,7 @@ const AISidebar = () => {
   console.log("HeatMap:", heatmap);
   const date = new Date().getDay();
 
-  const hourlyActivity = heatmap[date - 1];
+  const hourlyActivity = heatmap[date || 6];
   console.log(hourlyActivity?.hours);
 
   const greaterThanNinety = incidentGraph.filter(

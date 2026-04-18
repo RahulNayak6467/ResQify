@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseclient";
+import { getAverageTime, getResolutionTime } from "../../lib/utils";
 
 // const weeklyIncidents = [
 //   { name: "Jayesh Patel", count: 23 },
@@ -128,7 +129,7 @@ const StaffPerformance = () => {
                   s.rank === 4 ? "text-moderate" : "text-resolved"
                 }`}
               >
-                {s.avg} avg
+                {getAverageTime(s.avg)} avg
               </span>
             </div>
           ))}

@@ -147,7 +147,7 @@ export const getIncidents = async () => {
   //   const hours = data.map((hour) => new Date(hour.created_at).getHours());
   const object = data.map((day) => {
     return {
-      day: new Date(day.created_at).getDay(),
+      day: new Date(day.created_at).getDay() || 7,
       hour: new Date(day.created_at).getHours(),
     };
   });
