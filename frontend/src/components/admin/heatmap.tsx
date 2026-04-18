@@ -11,7 +11,7 @@ function HeatMap() {
           Incident heatmap — last 7 day
         </h3>
       </div>
-      <div className="grid grid-cols-1 gap-y-0.5 mt-4">
+      <div className="grid grid-cols-1 gap-y-0.5  mt-4">
         {heatmap.map((heatmap) => (
           <HeatMapHour
             key={`day-${heatmap.day}-${heatmap.hours.length}`}
@@ -19,7 +19,7 @@ function HeatMap() {
           />
         ))}
       </div>
-      <div className="grid grid-cols-24 ml-10 mt-1">
+      <div className="grid grid-cols-24  ml-10 mt-1">
         <p className="text-text-secondary col-start-1  font-mono text-[10px]">
           00:00
         </p>

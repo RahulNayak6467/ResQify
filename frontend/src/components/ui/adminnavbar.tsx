@@ -15,7 +15,7 @@ function AdminNavbar() {
   }
 
   return (
-    <header className="py-2 px-4 border-2 border-b-0 border-border mt-6 max-w-7xl mx-auto px-8 bg-background rounded-t-2xl">
+    <header className="py-2 px-4 border-2 border-b-0 border-border mt-6 max-w-[1400px] mx-auto px-8 bg-background rounded-t-2xl">
       <nav className="w-full flex justify-between items-center">
         <div className="flex gap-4 items-center">
           <h1 className="bg-admin rounded-lg text-sm text-white w-fit p-1 uppercase">

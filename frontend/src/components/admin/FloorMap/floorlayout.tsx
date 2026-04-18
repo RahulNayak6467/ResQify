@@ -3,6 +3,7 @@ import FloorMapLegend from "./floormaplegend";
 import FloorMap from "./floorroom";
 import { formatTime } from "../../../lib/utils";
 import { getIncidentFloorMap } from "../../../lib/queris";
+import AIStatsStrip from "../aiDashboard";
 
 // constants/floorMap.ts
 
@@ -96,12 +97,15 @@ function FloorLayout() {
   console.log(rooms);
 
   return (
-    <div className="bg-base border border-border brightness-125 mx-auto max-w-[1600px] mt-6 h-fit px-6 py-4 rounded-lg">
-      <div className="flex justify-between items-center">
+    <div className="bg-base-raised/40 border border-border brightness-125 mx-auto max-w-[1400px]  h-fit px-6 py-4  rounded-b-lg">
+      <div>
+        <AIStatsStrip />
+      </div>
+      <div className="flex justify-between items-center mt-6 ">
         <h3 className="text-sm text-text-secondary font-mono tracking-tight brightness-125 ">
           Floor {selectedFloor} Layout
         </h3>
-        <div className="flex gap-0.5 items-center">
+        <div className="flex gap-0.5  items-center">
           {Array.from({ length: 10 }).map((_, index) => (
             <div
               onClick={() => setSelectedFloor(() => index)}
@@ -112,10 +116,7 @@ function FloorLayout() {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-10 gap-x-2 gap-y-2 mt-2">
-        {/* {floor3Rooms.map((floor)) => (
-          <FloorMap data={floor} />
-        ))} */}
+      <div className="grid grid-cols-10 h-fit border border-border p-4 rounded-2xl bg-base-raised/40  gap-x-2 gap-y-2 mt-2">
         {rooms.map((floor) => (
           <FloorMap data={floor} />
         ))}

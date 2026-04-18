@@ -25,13 +25,13 @@ function FloorMap({ data }: { data: Room }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative bg-base-raised  w-full ">
       <div
         style={{
           backgroundColor: assignColor(data.status)?.bgColor,
           borderColor: assignColor(data.status)?.border,
         }}
-        className={`flex items-center justify-center w-full h-30 rounded-t-sm rounded-b-sm text-xs border border-${data.status === "normal" ? "border" : data.status} ${data.status === "critical" ? "animate-flash-room" : ""} bg-surface-raised brightness-60 cursor-pointer border-2 hover:border-border-focus transition-all `}
+        className={`flex items-center justify-center w-full h-30 rounded-t-sm rounded-b-sm text-xs border border-${data.status === "normal" ? "border" : data.status} ${data.status === "critical" ? "animate-flash-room" : ""} bg-surface-raised brightness-60 cursor-pointer border hover:border-border-focus transition-all `}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

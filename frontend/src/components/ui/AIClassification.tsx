@@ -110,7 +110,7 @@ const AIClassificationLog = () => {
     fetchData();
   }, []);
   return (
-    <section className="flex flex-col gap-8  bg-base-raised/40 border border-border rounded-b-lg rounded-0 overflow-hidden max-w-7xl mx-auto  p-8 ">
+    <section className="flex flex-col gap-8  bg-base-raised/40 border border-border rounded-b-lg rounded-0 overflow-hidden max-w-[1400px] mx-auto  p-8 ">
       <AIStatsStrip />
 
       <div className="flex gap-8">
@@ -141,7 +141,7 @@ const AIClassificationLog = () => {
                   {" "}
                   {type}
                 </span>
-                <span className="text-text-secondary flex-1 line-clamp-1">
+                <span className="text-text-primary font-mono  flex-1 line-clamp-1">
                   {message}
                 </span>
                 <span

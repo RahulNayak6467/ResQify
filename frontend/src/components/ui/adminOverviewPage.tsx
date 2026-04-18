@@ -33,7 +33,7 @@ function AdminOverviewPage() {
   ] = overview;
   console.log(overview);
   return (
-    <div className="mx-auto max-w-7xl bg-base-raised/40  flex flex-col gap-3 p-8 border border-border ">
+    <div className="mx-auto max-w-[1400px] bg-base-raised/40  flex flex-col gap-3 p-8 border border-border ">
       <div className="grid grid-cols-5 gap-3">
         <StatCard
           //   num={AIAccuracy}

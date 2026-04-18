@@ -58,7 +58,7 @@ const StaffPerformance = () => {
 
   const total = weeklyIncidents.reduce((acc, data) => acc + data.count, 0);
   return (
-    <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto mb-4">
+    <div className="grid grid-cols-2 gap-4 max-w-[1400px] mx-auto mb-4">
       {/* incidents handled */}
       <div className="bg-base-raised border border-border rounded-2xl p-5">
         <div className="flex items-center justify-between mb-5">

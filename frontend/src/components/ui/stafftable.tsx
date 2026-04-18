@@ -94,7 +94,7 @@ const StaffTable = () => {
 
   console.log(staffData);
   return (
-    <div className="bg-base-raised/40 border border-border p-8   border-t-0 rounded-t-0 rounded-b-2xl overflow-hidden max-w-7xl mx-auto ">
+    <div className="bg-base-raised/40 border border-border p-8   border-t-0 rounded-t-0 rounded-b-2xl overflow-hidden max-w-[1400px] mx-auto ">
       <StaffPerformance />
       <div className="border bg-base-raised border-border rounded-t-xl p-4 rounded-b-xl">
         <div className="flex items-center bg-base-raised justify-between px-5 pb-1 border-b rounded-t-xl  border-border">
