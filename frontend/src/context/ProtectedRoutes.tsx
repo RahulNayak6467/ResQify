@@ -15,7 +15,7 @@ export const useProtected = () => {
 };
 
 function ProtectedRoutesProvider({ children }: { children: React.ReactNode }) {
-  const { isLoading, user } = useAuthContext();
+  const { isLoading, user, role } = useAuthContext();
   //   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,34 +26,22 @@ function ProtectedRoutesProvider({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" />;
   }
 
-  const checkRole = user?.user_metadata?.role;
-  //   if (checkRole === "guest") {
-  //       if (location.pathname === "/guest") {
-  //     } else {
-  //       return <Navigate to="/guest" />;
-  //     }
-  //   } else if (checkRole === "staff") {
-  //     if (location.pathname === "/staff") {
-  //       console.log("path");
-  //     } else {
-  //       return <Navigate to="/staff" />;
-  //     }
-  //   } else if (checkRole === "admin") {
-  //     if (location.pathname.includes("/admin")) {
-  //       console.log("path");
-  //     } else {
-  //       return <Navigate to="/admin/overview" />;
-  //     }
+  console.log("USER", user);
+
+  //   const checkRole = user?.user_metadata?.role;
+  //   console.log(checkRole);
+  //   console.log("ROLE", role);
+
   console.log(location.pathname);
-  if (checkRole === "guest") {
+  if (role === "guest") {
     if (!location.pathname.includes("/guest")) {
       return <Navigate to="/guest" />;
     }
-  } else if (checkRole === "staff") {
+  } else if (role === "staff") {
     if (!location.pathname.includes("/staff")) {
       return <Navigate to="/staff" />;
     }
-  } else if (checkRole === "admin") {
+  } else if (role === "admin") {
     if (!location.pathname.includes("/admin")) {
       return <Navigate to="/admin/overview" />;
     }
@@ -61,7 +49,9 @@ function ProtectedRoutesProvider({ children }: { children: React.ReactNode }) {
   //     navigate("/staff");
   //   }
 
-  return <ProtectedRoutes.Provider value={null}>{children}</ProtectedRoutes.Provider>;
+  return (
+    <ProtectedRoutes.Provider value={null}>{children}</ProtectedRoutes.Provider>
+  );
 }
 
 export default ProtectedRoutesProvider;

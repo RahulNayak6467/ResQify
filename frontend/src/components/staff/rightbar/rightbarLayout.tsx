@@ -172,9 +172,10 @@ function RightBarLayout() {
                 ? 0.2
                 : 1,
           }}
-          onClick={() =>
-            resolveUpdateIncident(selectedIncident?.id, user ?? user.id)
-          }
+          onClick={() => {
+            if (!user) return;
+            resolveUpdateIncident(selectedIncident?.id, user);
+          }}
           className="uppercase text-resolved text-[12px] py-2 w-[95%] mx-auto bg-resolved-muted border border-resolved-border rounded-md cursor-pointer hover:brightness-125 transition-all"
         >
           {isResolving
@@ -190,7 +191,9 @@ function RightBarLayout() {
             try {
               const data = await updateApproved(selectedIncident?.id);
               setApprovdeUpdate(data?.[0]?.approved_time ?? toTimestamptz());
-              await updateStaffStatus(user.id ?? user);
+              if (user) {
+                await updateStaffStatus(user);
+              }
             } finally {
               setIsApproving(false);
             }

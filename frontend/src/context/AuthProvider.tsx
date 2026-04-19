@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface value {
   user: string | null | undefined;
   isLoading: boolean;
+  role: string | null | undefined;
 }
 
 const AuthContext = createContext<value | null>(null);
@@ -37,7 +38,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      handleUser(session?.user ?? null);
+      handleUser(session?.user?.id ?? null);
       setIsLoading(false);
     });
   }, []);
@@ -45,6 +46,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
+        console.log("SESSION", session);
         handleUser(session?.user.id);
         handleAuth(true);
         handleRole(session?.user.user_metadata?.role);
@@ -69,7 +71,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user,
     // setUser,
-    // role,
+    role,
     // setRole,
     // auth,
     // setAuth,
