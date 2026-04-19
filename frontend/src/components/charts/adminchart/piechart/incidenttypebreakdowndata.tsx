@@ -1,12 +1,6 @@
 import { useAdmin } from "../../../../context/adminContext";
 import IncidentTypeBreakdownValue from "../incidenttypebreakdown";
 
-interface incidentTypeBreakdownProps {
-  type: string;
-  value: number;
-  fill: string;
-}
-
 const IncidentTypeBreakdown = () => {
   const { incidentGraph } = useAdmin();
   const Medical = incidentGraph.filter(

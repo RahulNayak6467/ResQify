@@ -2,7 +2,6 @@ import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Loader from "../ui/Loader";
-import { useAuthContext } from "../../context/AuthProvider";
 
 interface incidentTableDataProps {
   incident_severity: string;
@@ -32,9 +31,6 @@ const StaffTopbar = ({
   }, []);
 
   const { signOut, isLoading } = useAuth();
-  const { user } = useAuthContext();
-  //   console.log(user?.user_metadata?.firstName[0]);
-  //   console.log(user?.user_metadata?.lastName);
 
   const handleSignOut = async () => {
     await signOut();
@@ -49,11 +45,11 @@ const StaffTopbar = ({
       {/* left */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-accent rounded-md flex items-center justify-center font-mono text-[10px] font-bold text-white flex-shrink-0">
+          <div className="w-6 h-6 bg-accent rounded-md flex items-center justify-center font-mono text-[10px] font-bold text-white shrink-0">
             SS
           </div>
-          <span className="font-mono text-sm font-semibold text-text-primary tracking-wide">
-            SAFESTAY / STAFF OPS
+          <span className="font-mono text-sm font-semibold text-text-primary uppercase tracking-wide">
+            ResQify / STAFF OPS
           </span>
         </div>
 
@@ -78,10 +74,6 @@ const StaffTopbar = ({
           {time}
         </span>
 
-        <span className="font-mono text-xs text-text-secondary tracking-wide">
-          STAFF: {user?.user_metadata?.firstName[0].toUpperCase()}.
-          {user?.user_metadata?.lastName.toUpperCase()}
-        </span>
         <button
           onClick={() => handleSignOut()}
           className="flex items-center gap-2 font-mono text-xs font-semibold tracking-widest uppercase text-critical border border-critical/25 rounded-xl px-6 py-2.5 hover:border-critical hover:text-white hover:bg-critical/10 hover:shadow-[0_0_16px_rgba(255,59,59,0.2)] transition-all duration-200"

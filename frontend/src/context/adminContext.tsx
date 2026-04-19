@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useStaff } from "./staffContext";
 import {
   getActiveIncidentData,
   getAIAccuracy,
@@ -33,10 +32,10 @@ export const useAdmin = () => {
 
 const AdminContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [overview, setOverview] = useState<number[]>([]);
-  const [incidentGraph, setIncidentGraph] = useState([]);
-  const [resolvedTime, setResolvedTime] = useState([]);
-  const [confidenceData, setConfidenceData] = useState([]);
-  const [heatmap, setHeatMap] = useState([]);
+  const [incidentGraph, setIncidentGraph] = useState<any[]>([]);
+  const [resolvedTime, setResolvedTime] = useState<any[]>([]);
+  const [confidenceData, setConfidenceData] = useState<any[]>([]);
+  const [heatmap, setHeatMap] = useState<any[]>([]);
   const [isloading, setIsloading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {

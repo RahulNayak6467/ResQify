@@ -1,10 +1,7 @@
 // constants/sidebar.ts
 
-import { useEffect, useState } from "react";
-import { supabase } from "../../../lib/supabaseclient";
 import FloorIncident from "./floorIncident";
 import TeamStatus from "./TeamStatus";
-import Loader from "../../ui/Loader";
 
 // interface sidebarCountsProps {
 //   All: number;

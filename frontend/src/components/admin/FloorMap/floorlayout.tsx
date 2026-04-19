@@ -1,54 +1,11 @@
 import { useEffect, useState } from "react";
 import FloorMapLegend from "./floormaplegend";
 import FloorMap from "./floorroom";
-import { formatTime } from "../../../lib/utils";
 import { getIncidentFloorMap } from "../../../lib/queris";
 import AIStatsStrip from "../aiDashboard";
 
 // constants/floorMap.ts
 
-const floor3Rooms = [
-  { number: 201, status: "normal" },
-  { number: 201, status: "normal" },
-  { number: 202, status: "normal" },
-  { number: 203, status: "normal" },
-  { number: 204, status: "normal" },
-  { number: 205, status: "normal" },
-  { number: 206, status: "normal" },
-  { number: 207, status: "normal" },
-  { number: 208, status: "normal" },
-  { number: 209, status: "normal" },
-  { number: 210, status: "normal" },
-  { number: 211, status: "normal" },
-  { number: 212, status: "normal" },
-  { number: 213, status: "normal" },
-  { number: 214, status: "normal" },
-  { number: 215, status: "normal" },
-  { number: 216, status: "normal" },
-  { number: 217, status: "normal" },
-  { number: 218, status: "normal" },
-  { number: 220, status: "normal" },
-  { number: 221, status: "normal" },
-  { number: 222, status: "normal" },
-  { number: 223, status: "normal" },
-  { number: 224, status: "normal" },
-  { number: 225, status: "normal" },
-  { number: 226, status: "normal" },
-  { number: 227, status: "normal" },
-  { number: 228, status: "normal" },
-  { number: 229, status: "normal" },
-  { number: 230, status: "normal" },
-  { number: 231, status: "normal" },
-  { number: 232, status: "normal" },
-  { number: 233, status: "normal" },
-  { number: 234, status: "normal" },
-  { number: 235, status: "normal" },
-  { number: 236, status: "normal" },
-  { number: 237, status: "normal" },
-  { number: 238, status: "normal" },
-  { number: 239, status: "normal" },
-  { number: 240, status: "normal" },
-];
 
 // const arr = [
 //   1, 2, 3, 4, 5, 3, 3, 4, 5, 3, 2, 4, 3, 5, 6, 7, 4, 3, 4, 5, 6, 3, 4,
@@ -68,33 +25,50 @@ const floor3Rooms = [
 // };
 
 const ROOMS_PER_FLOOR = 40;
+const ONE_HOUR_MS = 60 * 60 * 1000;
 
 function FloorLayout() {
   const [selectedFloor, setSelectedFloor] = useState(1);
-  const rooms = Array.from({ length: ROOMS_PER_FLOOR }, (_, i) => ({
-    number: selectedFloor * 100 + i + 1,
-    status: "normal",
-  }));
-  console.log(rooms);
-  const [dataFloor, setDataFloor] = useState([]);
+  const [dataFloor, setDataFloor] = useState<
+    { room_number: number; incident_severity: string; resolved_at: string | null }[]
+  >([]);
+  const [now, setNow] = useState(Date.now());
+
   useEffect(() => {
     const fetchData = async () => {
       const getData = await getIncidentFloorMap();
-      console.log(getData);
       setDataFloor(getData);
     };
     fetchData();
   }, []);
 
+  // Tick every minute so rooms revert to normal once the 1-hour window elapses
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const rooms = Array.from({ length: ROOMS_PER_FLOOR }, (_, i) => ({
+    number: selectedFloor * 100 + i + 1,
+    status: "normal",
+  }));
+
   for (let i = 0; i < rooms.length; i++) {
     for (let j = 0; j < dataFloor.length; j++) {
       if (rooms[i].number === dataFloor[j].room_number) {
-        rooms[i].status = dataFloor[j].incident_severity;
+        const incident = dataFloor[j];
+        if (
+          incident.incident_severity === "resolved" &&
+          incident.resolved_at &&
+          now - new Date(incident.resolved_at).getTime() >= ONE_HOUR_MS
+        ) {
+          rooms[i].status = "normal";
+        } else {
+          rooms[i].status = incident.incident_severity;
+        }
       }
     }
   }
-  console.log(dataFloor);
-  console.log(rooms);
 
   return (
     <div className="bg-base-raised/40 border border-border brightness-125 mx-auto max-w-[1400px]  h-fit px-6 py-4  rounded-b-lg">

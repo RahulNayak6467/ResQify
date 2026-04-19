@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type Resolver, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
   RegisterUserSchema,
@@ -47,7 +47,7 @@ function RegisterForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterUserSchemaType>({
-    resolver: zodResolver(RegisterUserSchema),
+    resolver: zodResolver(RegisterUserSchema) as Resolver<RegisterUserSchemaType>,
   });
 
   const { signUp, isLoading, insertProfilesData } = useAuth();

@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseclient";
-import { useAuth } from "../hooks/useAuth";
 
 interface valueProps {
   incident: any[];
@@ -32,7 +31,7 @@ export const useStaff = () => {
 const StaffContextProvider = ({ children }: { children: React.ReactNode }) => {
   //   const { getIncidentsData } = useAuth();
   const [incident, setIncident] = useState<any[]>([]);
-  const [count, setCount] = useState(0);
+  const [, setCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,10 +50,6 @@ const StaffContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
   const handlePage = (page: number) => {
     setPage(page);
-  };
-
-  const handleSelectedIncident = (incident: any) => {
-    setSelectedIncident(incident);
   };
 
   const ITEMS_PER_PAGE = 7;

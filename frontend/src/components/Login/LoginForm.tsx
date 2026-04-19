@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { useStaff } from "../../context/staffContext";
 // import { useAuthContext } from "../../context/AuthProvider";
 
 type Role = "guest" | "staff" | "admin";
@@ -17,9 +16,9 @@ const Login = () => {
   const [role, setRole] = useState<Role>("guest");
   const navigate = useNavigate();
   const { signIn } = useAuth();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<{ email: string; password: string }>();
 
-  const onSubmit = async (userData) => {
+  const onSubmit = async (userData: { email: string; password: string }) => {
     const userInfo = {
       email: userData.email,
       password: userData.password,

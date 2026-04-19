@@ -225,7 +225,7 @@ const css = `
   }
 `;
 
-function Spinner({ size }) {
+function Spinner({ size }: { size: number }) {
   const inset = Math.round(size * 0.18);
   return (
     <div className="stl-spinner" style={{ width: size, height: size }}>
@@ -236,7 +236,7 @@ function Spinner({ size }) {
   );
 }
 
-function Pulse({ size }) {
+function Pulse({ size }: { size: number }) {
   const d = size * 0.35;
   return (
     <div className="stl-pulse-wrap" style={{ width: size, height: size }}>
@@ -247,7 +247,7 @@ function Pulse({ size }) {
   );
 }
 
-function Bars({ size }) {
+function Bars({ size }: { size: number }) {
   const w = Math.max(3, size * 0.1);
   return (
     <div className="stl-bars" style={{ height: size }}>
@@ -258,7 +258,7 @@ function Bars({ size }) {
   );
 }
 
-function Orbital({ size }) {
+function Orbital({ size }: { size: number }) {
   return (
     <div className="stl-orbital" style={{ width: size, height: size }}>
       <div className="stl-orbit-ring" />
@@ -309,8 +309,8 @@ export default function Loader({
     setInjected(true);
   }, [injected]);
 
-  const px = typeof size === "number" ? size : SIZES[size] || SIZES.md;
-  const Component = VARIANTS[variant] || Spinner;
+  const px = typeof size === "number" ? size : (SIZES as Record<string, number>)[size] ?? SIZES.md;
+  const Component = ((VARIANTS as Record<string, unknown>)[variant] as typeof Spinner) ?? Spinner;
 
   const content = (
     <div className={`stl-wrap ${inline ? "inline" : ""}`}>

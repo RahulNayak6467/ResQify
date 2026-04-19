@@ -1,6 +1,11 @@
-import { includes } from "zod";
 import { supabase } from "./supabaseclient";
-import { formatTime } from "./utils";
+
+const getWeekStart = (): string => {
+  const d = new Date();
+  d.setDate(d.getDate() - 6);
+  d.setHours(0, 0, 0, 0);
+  return d.toISOString();
+};
 
 export const getResolvedTimeData = async (id: string) => {
   const { data, error } = await supabase
@@ -100,7 +105,10 @@ export const getResolutionRate = async () => {
 };
 
 export const getIncidentType = async () => {
-  const { data, error } = await supabase.from("aiclassification").select("*");
+  const { data, error } = await supabase
+    .from("aiclassification")
+    .select("*")
+    .gte("created_at", getWeekStart());
   if (error) {
     throw new Error(error.message);
   }
@@ -130,17 +138,18 @@ export const getAIData = async () => {
 };
 
 export const getIncidents = async () => {
-  const { data, error } = await supabase.from("incidents").select("created_at");
+  const { data, error } = await supabase
+    .from("incidents")
+    .select("created_at")
+    .gte("created_at", getWeekStart());
   if (error) {
     throw new Error(error.message);
   }
   const days = [1, 2, 3, 4, 5, 6, 7];
-  const arr = days.map((day, index) => {
-    return {
-      days: days[index],
-      hours: new Array(24).fill(0),
-    };
-  });
+  const arr = days.map((day) => ({
+    days: day,
+    hours: new Array(24).fill(0),
+  }));
   console.log(arr);
 
   //   const date = data.map((day) => new Date(day.created_at).getDay());
@@ -194,24 +203,21 @@ export const getStaff = async () => {
 };
 
 export const getAiSuggestions = async () => {
-  const { data, error } = await supabase.from("aiclassification").select("*");
+  const { data, error } = await supabase
+    .from("aiclassification")
+    .select("*")
+    .gte("created_at", getWeekStart())
+    .order("created_at", { ascending: false });
   if (error) {
     throw new Error(error.message);
   }
-  //   console.log(data);
-  // const requiredData = data.filter((data) => {
-  //     return {
-
-  //     }
-  // })
-  console.log(data);
   return data;
 };
 
 export const getIncidentFloorMap = async () => {
   const { data, error } = await supabase
     .from("incidents")
-    .select("room_number, incident_severity");
+    .select("room_number, incident_severity, resolved_at");
   if (error) {
     throw new Error(error.message);
   }

@@ -72,21 +72,20 @@ function PaginationStaff({
   const getPageNumbers = () => {
     const pages: (number | "ellipsis-start" | "ellipsis-end")[] = [];
 
-    if (totalPages <= 5) {
+    if (totalPages <= 4) {
       for (let i = 0; i < totalPages; i++) pages.push(i);
       return pages;
     }
 
+    // Slide a 2-page inner window that follows currentPage,
+    // clamped so it never overlaps first (0) or last (totalPages-1).
+    const innerStart = Math.min(Math.max(1, currentPage), totalPages - 3);
+    const innerEnd = innerStart + 1;
+
     pages.push(0);
-
-    if (currentPage > 2) pages.push("ellipsis-start");
-
-    const start = Math.max(1, currentPage - 1);
-    const end = Math.min(totalPages - 2, currentPage + 1);
-    for (let i = start; i <= end; i++) pages.push(i);
-
-    if (currentPage < totalPages - 3) pages.push("ellipsis-end");
-
+    if (innerStart > 1) pages.push("ellipsis-start");
+    for (let i = innerStart; i <= innerEnd; i++) pages.push(i);
+    if (innerEnd < totalPages - 2) pages.push("ellipsis-end");
     pages.push(totalPages - 1);
 
     return pages;
@@ -110,7 +109,7 @@ function PaginationStaff({
           />
         </PaginationItem>
 
-        {getPageNumbers().map((page, index) => {
+        {getPageNumbers().map((page) => {
           if (page === "ellipsis-start" || page === "ellipsis-end") {
             return (
               <PaginationItem key={page}>

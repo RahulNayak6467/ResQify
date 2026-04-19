@@ -82,7 +82,7 @@ const AISidebar = () => {
           Hourly Activity
         </p>
         <div className="flex items-end gap-1 h-14">
-          {hourlyActivity?.hours?.map((val, i) => {
+          {hourlyActivity?.hours?.map((val: number, i: number) => {
             const max = Math.max(...hourlyActivity.hours);
             return (
               <div

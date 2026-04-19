@@ -2,7 +2,6 @@
 
 import { useAdmin } from "../../context/adminContext";
 import StatCard from "../StatCard";
-import AdminOverviewPage from "../ui/adminOverviewPage";
 
 // const { stats } = aiDashboardData;
 
@@ -74,13 +73,8 @@ import AdminOverviewPage from "../ui/adminOverviewPage";
 
 function AIStatsStrip() {
   const { overview } = useAdmin();
-  const [
-    AIAccuracy,
-    AILatency,
-    ActiveIncidents,
-    StaffOnline,
-    PercentageResolved,
-  ] = overview;
+  const [AIAccuracy, AILatency, ActiveIncidents, , PercentageResolved] =
+    overview;
   return (
     <div className="grid grid-cols-5 gap-x-3">
       <StatCard

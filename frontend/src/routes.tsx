@@ -8,7 +8,6 @@ import StaffPage from "./pages/StaffPage";
 import FloorLayout from "./components/admin/FloorMap/floorlayout";
 import LoginPage from "./components/Login/LoginPage";
 import Register from "./components/SignIn/SignInPage";
-import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import ProtectedRoutesProvider from "./context/ProtectedRoutes";
 import AuthProvider from "./context/AuthProvider";

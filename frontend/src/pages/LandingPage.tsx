@@ -10,7 +10,6 @@ import ProcessSection from "../components/LandingPage/ProcessSteps";
 import RolesSection from "../components/LandingPage/RoleSection";
 import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import ReactLenis from "lenis/react";
-import { useAuthContext } from "../context/AuthProvider";
 // import { children, fadeOut } from "../constants/animation";
 // constants/features.ts
 

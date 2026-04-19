@@ -4,53 +4,55 @@ import { supabase } from "../../../lib/supabaseclient";
 import Analysis from "./aianalysis";
 import IncidentDetail from "./incidentdetail";
 import IncidentTimeline from "./timelinevent";
-import { useAuth } from "../../../hooks/useAuth";
 import { useAuthContext } from "../../../context/AuthProvider";
 
 function RightBarLayout() {
-  const [isClicked, setIsClicked] = useState(false);
+  const [, setIsClicked] = useState(false);
   const [approveUpdate, setApprovdeUpdate] = useState("");
+  const [isResolving, setIsResolving] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
   const { user } = useAuthContext();
 
   const toTimestamptz = (date = new Date()) => {
     return date.toISOString();
   };
-  const { selectedIncident } = useStaff();
+  const { selectedIncident, setSelectedIncident, setIncident } = useStaff();
   console.log(selectedIncident);
   const resolveUpdateIncident = async (id: string, user_id: string) => {
-    if (selectedIncident.incident_severity === "resolved") {
-      return;
-    }
-    const { data, error: incidentError } = await supabase
-      .from("incidents")
-      .update({ incident_severity: "resolved", resolved_at: toTimestamptz() })
-      .eq("id", id)
-      .select();
-    console.log("userID", user_id);
-    const { data: updatedData, error } = await supabase
-      .from("profiles")
-      .update({ staff_status: "online" })
-      .eq("id", user_id)
-      .select();
-    if (incidentError) {
-      throw new Error(incidentError.message);
-    }
-    if (error) {
-      throw new Error(error.message);
-    }
-    const secondsTaken = Math.floor(
-      (new Date().getTime() -
-        new Date(selectedIncident?.created_at).getTime()) /
-        1000,
-    );
+    if (selectedIncident.incident_severity === "resolved") return;
+    setIsResolving(true);
+    try {
+      const { data, error: incidentError } = await supabase
+        .from("incidents")
+        .update({ incident_severity: "resolved", resolved_at: toTimestamptz() })
+        .eq("id", id)
+        .select();
+      const { data: updatedData, error } = await supabase
+        .from("profiles")
+        .update({ staff_status: "online" })
+        .eq("id", user_id)
+        .select();
+      if (incidentError) throw new Error(incidentError.message);
+      if (error) throw new Error(error.message);
 
-    await supabase.rpc("update_avg_response", {
-      staff_id: user_id,
-      response_seconds: secondsTaken,
-    });
-    await supabase.rpc("increment_resolved", { staff_id: user_id });
-    console.log(updatedData);
-    console.log("ResolvedData: ", data);
+      const secondsTaken = Math.floor(
+        (new Date().getTime() -
+          new Date(selectedIncident?.created_at).getTime()) /
+          1000,
+      );
+      await supabase.rpc("update_avg_response", {
+        staff_id: user_id,
+        response_seconds: secondsTaken,
+      });
+      await supabase.rpc("increment_resolved", { staff_id: user_id });
+
+      const updated = { ...selectedIncident, incident_severity: "resolved" };
+      setSelectedIncident(updated);
+      setIncident((prev) => prev.map((inc) => (inc.id === id ? updated : inc)));
+      console.log(updatedData, data);
+    } finally {
+      setIsResolving(false);
+    }
   };
   const updateApproved = async (id: string) => {
     const { data, error } = await supabase
@@ -142,7 +144,9 @@ function RightBarLayout() {
       )
       .subscribe();
 
-    return () => supabase.removeChannel(channel);
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [approveUpdate]);
   if (!selectedIncident) return;
   return (
@@ -159,34 +163,50 @@ function RightBarLayout() {
         </button>
         <button
           type="button"
-          disabled={selectedIncident?.incident_severity === "resolved"}
+          disabled={
+            selectedIncident?.incident_severity === "resolved" || isResolving
+          }
           style={{
             opacity:
-              selectedIncident?.incident_severity === "resolved" ? 0.2 : 1,
+              selectedIncident?.incident_severity === "resolved" || isResolving
+                ? 0.2
+                : 1,
           }}
           onClick={() =>
-            resolveUpdateIncident(selectedIncident?.id, user.id ?? user)
+            resolveUpdateIncident(selectedIncident?.id, user ?? user.id)
           }
           className="uppercase text-resolved text-[12px] py-2 w-[95%] mx-auto bg-resolved-muted border border-resolved-border rounded-md cursor-pointer hover:brightness-125 transition-all"
         >
-          {selectedIncident?.incident_severity === "resolved"
-            ? "resolved"
-            : "Mark Resolved"}
+          {isResolving
+            ? "Resolving..."
+            : selectedIncident?.incident_severity === "resolved"
+              ? "Resolved"
+              : "Mark Resolved"}
         </button>
         <button
-          onClick={() => {
+          onClick={async () => {
             setIsClicked(() => true);
-            updateApproved(selectedIncident?.id);
-            updateStaffStatus(user.id ?? user);
+            setIsApproving(true);
+            try {
+              const data = await updateApproved(selectedIncident?.id);
+              setApprovdeUpdate(data?.[0]?.approved_time ?? toTimestamptz());
+              await updateStaffStatus(user.id ?? user);
+            } finally {
+              setIsApproving(false);
+            }
           }}
           type="button"
-          disabled={approveUpdate ? true : false}
+          disabled={!!approveUpdate || isApproving}
           style={{
-            opacity: approveUpdate ? 0.2 : 1,
+            opacity: approveUpdate || isApproving ? 0.2 : 1,
           }}
           className="uppercase text-accent text-[12px] py-2 w-[95%] mx-auto bg-accent-muted border border-accent-border rounded-md hover:brightness-125 transition-all cursor-pointer"
         >
-          {approveUpdate ? "Approved" : "Approve"}
+          {isApproving
+            ? "Approving..."
+            : approveUpdate
+              ? "Approved"
+              : "Approve"}
         </button>
       </div>
     </div>

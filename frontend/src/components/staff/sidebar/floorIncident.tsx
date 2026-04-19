@@ -1,17 +1,5 @@
 import { useStaff } from "../../../context/staffContext";
 
-interface FloorAlert {
-  label: string;
-  count: number;
-  color: string;
-}
-
-const floorAlerts: FloorAlert[] = [
-  { label: "Floor 4 — Room 412", count: 1, color: "#ff3b3b" },
-  { label: "Floor 2 — Room 207", count: 1, color: "#ff3b3b" },
-  { label: "Floor 3 — Hallway", count: 1, color: "#ffaa00" },
-];
-
 function FloorIncident() {
   const { incident } = useStaff();
   console.log(incident.slice(0, 3));

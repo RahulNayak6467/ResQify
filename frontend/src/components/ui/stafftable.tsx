@@ -1,7 +1,6 @@
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useState } from "react";
 import { getStaff } from "../../lib/queris";
 import Loader from "./Loader";
-import AIStatsStrip from "../admin/aiDashboard";
 import StaffPerformance from "../admin/weeklyIncidents";
 
 type StaffRole = "STAFF" | "ADMIN";
@@ -15,18 +14,18 @@ interface StaffMember {
   incidentsToday: number | null;
 }
 
-const roleColorMap: Record<StaffRole, string> = {
+const roleColorMap: Record<string, string> = {
   STAFF: "bg-accent-muted border-accent-border text-accent",
   ADMIN: "bg-admin-muted border-admin-border text-admin",
 };
 
-const statusColorMap: Record<StaffStatus, string> = {
+const statusColorMap: Record<string, string> = {
   ONLINE: "text-resolved",
   DEPLOYED: "text-moderate",
   OFFLINE: "text-text-faint",
 };
 
-const statusDotMap: Record<StaffStatus, string> = {
+const statusDotMap: Record<string, string> = {
   ONLINE: "bg-resolved",
   DEPLOYED: "bg-moderate",
   OFFLINE: "bg-text-faint",
@@ -64,7 +63,9 @@ const staffMembers: StaffMember[] = [
 ];
 
 const StaffTable = () => {
-  const [staffData, setStaffData] = useState([]);
+  const [staffData, setStaffData] = useState<
+    { name: string; role: string; team: string; status: string; incidents: number }[]
+  >([]);
   const [isloading, setIsloading] = useState(false);
 
   useEffect(() => {

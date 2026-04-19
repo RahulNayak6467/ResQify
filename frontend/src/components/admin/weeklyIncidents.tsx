@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseclient";
-import { getAverageTime, getResolutionTime } from "../../lib/utils";
+import { getAverageTime } from "../../lib/utils";
 
 // const weeklyIncidents = [
 //   { name: "Jayesh Patel", count: 23 },
@@ -20,7 +20,9 @@ import { getAverageTime, getResolutionTime } from "../../lib/utils";
 // ];
 
 const StaffPerformance = () => {
-  const [topPerformers, setTopPerformers] = useState([]);
+  const [topPerformers, setTopPerformers] = useState<
+    { first_name: string; last_name: string; incident_resolved: number; response_time: number }[]
+  >([]);
   useEffect(() => {
     const getTopPerformers = async () => {
       const { data, error } = await supabase
@@ -47,7 +49,7 @@ const StaffPerformance = () => {
     };
   });
   const fastestResponse = topPerformers
-    .toSorted((a, b) => Number(b.time) - Number(a.time))
+    .toSorted((a, b) => Number(a.response_time) - Number(b.response_time))
     .slice(0, 4)
     .map((data, index) => {
       return {

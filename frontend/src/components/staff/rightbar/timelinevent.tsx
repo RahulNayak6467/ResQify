@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import { useStaff } from "../../../context/staffContext";
-import { supabase } from "../../../lib/supabaseclient";
 import { formatTime } from "../../../lib/utils";
 import { getApprovdedTimeData, getResolvedTimeData } from "../../../lib/queris";
 import TimelineItem from "./Timelinecomponent";
 import Loader from "../../ui/Loader";
-
-interface TimelineEvent {
-  label: string;
-  time: string | null;
-  status: "done" | "active" | "pending";
-}
 
 // const timeline: TimelineEvent[] = [
 //   { label: "Guest submitted report", time: "23:03:12", status: "done" },
@@ -36,7 +29,7 @@ const IncidentTimeline = () => {
   const { selectedIncident } = useStaff();
   const [approved_at, setApprovedAt] = useState<string | null>(null);
   const [resolved_at, setResolvedAt] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   useEffect(() => {
     if (!selectedIncident) return;

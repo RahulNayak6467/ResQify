@@ -1,7 +1,7 @@
-import { createContext, useContext, useLayoutEffect } from "react";
+import { createContext, useContext } from "react";
 import { useAuthContext } from "./AuthProvider";
 import Loader from "../components/ui/Loader";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoutes = createContext(null);
 
@@ -61,7 +61,7 @@ function ProtectedRoutesProvider({ children }: { children: React.ReactNode }) {
   //     navigate("/staff");
   //   }
 
-  return <ProtectedRoutes.Provider>{children}</ProtectedRoutes.Provider>;
+  return <ProtectedRoutes.Provider value={null}>{children}</ProtectedRoutes.Provider>;
 }
 
 export default ProtectedRoutesProvider;

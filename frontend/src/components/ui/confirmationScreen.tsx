@@ -62,8 +62,8 @@
 // };
 // export default ConfirmationScreen;
 
-import { CheckIcon, PlusIcon, HomeIcon } from "lucide-react";
-import { useEffect, useEffectEvent, useState } from "react";
+import { CheckIcon, PlusIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabaseclient";
 import { formatTime } from "../../lib/utils";
@@ -75,7 +75,9 @@ const ConfirmationScreen = () => {
   console.log("classification: ", classification);
   const navigate = useNavigate();
   //   console.log(state);
-  const [recentIncidents, setRecentIncidents] = useState([]);
+  const [recentIncidents, setRecentIncidents] = useState<
+    { id: string; type: string; status: string; time: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchData = async () => {

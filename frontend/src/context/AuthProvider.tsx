@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseclient";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface value {
-  user: any;
+  user: string | null | undefined;
   isLoading: boolean;
 }
 
@@ -20,15 +20,14 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<string | null>();
   const [role, setRole] = useState<string | null>();
   const [isLoading, setIsLoading] = useState(true);
-  const [auth, setAuth] = useState<boolean>(false);
+  const [, setAuth] = useState<boolean>(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const handleUser = (user: any) => {
+  const handleUser = (user: string | null | undefined) => {
     setUser(user);
   };
 
-  const handleRole = (role: any) => {
+  const handleRole = (role: string | null) => {
     setRole(role);
   };
 
@@ -64,6 +63,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       data.subscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value = {

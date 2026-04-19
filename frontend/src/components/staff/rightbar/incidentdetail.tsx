@@ -1,5 +1,4 @@
 import { useStaff } from "../../../context/staffContext";
-import Loader from "../../ui/Loader";
 
 const severityBadgeMap: Record<string, string> = {
   CRITICAL: "bg-critical-muted text-critical border-critical-border",
